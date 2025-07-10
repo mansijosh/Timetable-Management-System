@@ -22,7 +22,6 @@ Common issues include:
 
 ### 🔧 Backend (FastAPI)
 - Teacher, Department, Subject, and Classroom management
-- AI-powered timetable generation
 - Conflict detection & auto-suggestions
 - Real-time alerts for leave, conflicts, and schedule changes
 - Downloadable PDF timetables
@@ -44,12 +43,12 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **React.js**, TailwindCSS / ShadCN |
+| Frontend    | **React.js**, TailwindCSS 
 | Backend     | **FastAPI** (Python) |
 | Database    | **PostgreSQL** (Recommended), SQLite (for development) |
 | Containerization | **Docker**, Docker Compose |
-| Scheduling Logic | Custom Python logic, optional: OR-Tools / Pulp |
-| PDF Reports | **WeasyPrint** or **ReportLab** |
-| Deployment  | Railway / Render / VPS with Docker |
+| Scheduling Logic | Custom Python logic
+| PDF Reports | **ReportLab** |
+| Deployment  |  Render / VPS with Docker |
 
 
