@@ -51,4 +51,7 @@ Common issues include:
 | PDF Reports | **ReportLab** |
 | Deployment  |  Render / VPS with Docker |
 
+---
+
+##  ⚙️Project architecture section
 
