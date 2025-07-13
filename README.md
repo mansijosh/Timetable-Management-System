@@ -52,4 +52,7 @@ Common issues include:
 | PDF Reports | **WeasyPrint** or **ReportLab** |
 | Deployment  | Railway / Render / VPS with Docker |
 
+## Database Design Link
+
+https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_loc=-1079%2C-454%2C3561%2C1327%2C0_0&invitationId=inv_9f8ddd78-eeca-4e1b-9255-cff3a49316b0
 
