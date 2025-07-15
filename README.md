@@ -43,7 +43,7 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **React.js**, TailwindCSS 
+| Frontend    | **Svelt** 
 | Backend     | **FastAPI** (Python) |
 | Database    | **PostgreSQL** (Recommended), SQLite (for development) |
 | Containerization | **Docker**, Docker Compose |
