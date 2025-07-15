@@ -63,4 +63,5 @@ https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_
 
 ##  ⚙️Project architecture section
 
+<img src="./TimetableDatabaseDesign.jpg"/>
 
