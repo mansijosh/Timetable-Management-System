@@ -22,7 +22,6 @@ Common issues include:
 
 ### 🔧 Backend (FastAPI)
 - Teacher, Department, Subject, and Classroom management
-- AI-powered timetable generation
 - Conflict detection & auto-suggestions
 - Real-time alerts for leave, conflicts, and schedule changes
 - Downloadable PDF timetables
@@ -44,16 +43,25 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **React.js**, TailwindCSS / ShadCN |
+| Frontend    | **React.js**, TailwindCSS 
 | Backend     | **FastAPI** (Python) |
 | Database    | **PostgreSQL** (Recommended), SQLite (for development) |
 | Containerization | **Docker**, Docker Compose |
-| Scheduling Logic | Custom Python logic, optional: OR-Tools / Pulp |
-| PDF Reports | **WeasyPrint** or **ReportLab** |
-| Deployment  | Railway / Render / VPS with Docker |
+| Scheduling Logic | Custom Python logic
+| PDF Reports | **ReportLab** |
+| Deployment  |  Render / VPS with Docker |
+
 
 ## Database Design Link
 
 https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_loc=-1079%2C-454%2C3561%2C1327%2C0_0&invitationId=inv_9f8ddd78-eeca-4e1b-9255-cff3a49316b0
 
+
 # Backend folder created
+
+
+
+##  ⚙️Project architecture section
+
+<img src="./TimetableDatabaseDesign.jpg"/>
+
