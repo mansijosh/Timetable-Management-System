@@ -1,0 +1,6 @@
+fastapi                 # the web framework
+uvicorn[standard]       # ASGI server with reload & extras
+sqlalchemy              # ORM / database toolkit
+psycopg2-binary         # PostgreSQL driver
+python-dotenv           # load .env variables
+pydantic==1.10.15       # latest v1.x at time of writing
