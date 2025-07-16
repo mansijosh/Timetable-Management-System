@@ -1,6 +1,10 @@
-fastapi                 # the web framework
-uvicorn[standard]       # ASGI server with reload & extras
-sqlalchemy              # ORM / database toolkit
-psycopg2-binary         # PostgreSQL driver
-python-dotenv           # load .env variables
-pydantic==1.10.15       # latest v1.x at time of writing
+fastapi                       # the web framework
+uvicorn[standard]             # ASGI server with reload & extras
+sqlalchemy                    # ORM / database toolkit
+psycopg2-binary               # PostgreSQL driver
+python-dotenv                 # load .env variables
+pydantic>=2.0                 # Pydantic v2+
+pydantic-settings>=2.0        # for BaseSettings in v2
+passlib[bcrypt]              # password hashing
+python-jose[cryptography]    # JWT creation & verification
+email-validator
