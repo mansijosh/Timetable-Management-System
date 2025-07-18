@@ -43,9 +43,9 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **React.js**, TailwindCSS 
+| Frontend    | **Svelt**,  
 | Backend     | **FastAPI** (Python) |
-| Database    | **PostgreSQL** (Recommended), SQLite (for development) |
+| Database    | **PostgreSQL** (Recommended) |
 | Containerization | **Docker**, Docker Compose |
 | Scheduling Logic | Custom Python logic
 | PDF Reports | **ReportLab** |
@@ -57,11 +57,25 @@ Common issues include:
 https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_loc=-1079%2C-454%2C3561%2C1327%2C0_0&invitationId=inv_9f8ddd78-eeca-4e1b-9255-cff3a49316b0
 
 
-# Backend folder created
-
-
-
 ##  ⚙️Project architecture section
 
 <img src="./TimetableDatabaseDesign.jpg"/>
+
+
+##  🛠️ Command to Copy .env.example to .env
+
+#### Copy the example environment file and rename it to .env:
+
+✅ For Linux / macOS / Git Bash:
+    cp .env.example .env
+
+
+✅ For Windows (Command Prompt):
+    copy .env.example .env
+
+
+✅ For Windows (PowerShell):
+    Copy-Item .env.example .env
+
+Then, open the .env file and replace the dummy values with actual credentials 
 
