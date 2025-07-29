@@ -80,25 +80,31 @@ Adminer provides an easy-to-use UI to browse tables, run queries, and manage the
 
 3. Log in using the following credentials (match with your .env file):
 
-##  🛠️ Command to Copy .env.example to .env
-
-#### Copy the example environment file and rename it to .env:
-
-✅ For Linux / macOS / Git Bash:
-    cp .env.example .env
-
-
-✅ For Windows (Command Prompt):
-    copy .env.example .env
-
-
-✅ For Windows (PowerShell):
-    Copy-Item .env.example .env
-
-Then, open the .env file and replace the dummy values with actual credentials 
-
     System: PostgreSQL
     Server: db
     Username: <your_postgres_user>
     Password: <your_postgres_password>
     Database: <your_database_name>
+
+
+##  🛠️ Command to Copy .env.example to .env
+
+#### Copy the example environment file and rename it to .env:
+
+1. For Linux / macOS / Git Bash:
+   ```bash
+   cp .env.example .env
+
+
+2. For Windows (Command Prompt):
+   ```bash
+   copy .env.example .env
+
+
+3. For Windows (PowerShell):
+   ```bash
+   Copy-Item .env.example .env
+
+Then, open the .env file and replace the dummy values with actual credentials 
+
+   
