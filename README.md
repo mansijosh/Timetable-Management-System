@@ -43,9 +43,9 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **Svelt** 
+| Frontend    | **Svelt** |
 | Backend     | **FastAPI** (Python) |
-| Database    | **PostgreSQL** (Recommended), SQLite (for development) |
+| Database    | **PostgreSQL** (Recommended) |
 | Containerization | **Docker**, Docker Compose |
 | Scheduling Logic | Custom Python logic
 | PDF Reports | **ReportLab** |
@@ -61,6 +61,24 @@ https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_
 
 <img src="./TimetableDatabaseDesign.jpg"/>
 
+
+
+# 🛠️ Database Management with Adminer
+
+This project uses **[Adminer](https://www.adminer.org/)** as a lightweight web-based database management tool for PostgreSQL.  
+Adminer provides an easy-to-use UI to browse tables, run queries, and manage the database directly from your browser.
+
+---
+
+1. Start all services:
+   ```bash
+   docker-compose up --build
+
+2. Open Adminer in your browser:
+    ```bash
+    http://localhost:8080
+
+3. Log in using the following credentials (match with your .env file):
 
 ##  🛠️ Command to Copy .env.example to .env
 
@@ -79,3 +97,8 @@ https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_
 
 Then, open the .env file and replace the dummy values with actual credentials 
 
+    System: PostgreSQL
+    Server: db
+    Username: <your_postgres_user>
+    Password: <your_postgres_password>
+    Database: <your_database_name>
