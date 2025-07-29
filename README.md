@@ -43,7 +43,7 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **Svelt**,  
+| Frontend    | **Svelt** |
 | Backend     | **FastAPI** (Python) |
 | Database    | **PostgreSQL** (Recommended) |
 | Containerization | **Docker**, Docker Compose |
@@ -62,6 +62,7 @@ https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_
 <img src="./TimetableDatabaseDesign.jpg"/>
 
 
+
 # 🛠️ Database Management with Adminer
 
 This project uses **[Adminer](https://www.adminer.org/)** as a lightweight web-based database management tool for PostgreSQL.  
@@ -78,6 +79,23 @@ Adminer provides an easy-to-use UI to browse tables, run queries, and manage the
     http://localhost:8080
 
 3. Log in using the following credentials (match with your .env file):
+
+##  🛠️ Command to Copy .env.example to .env
+
+#### Copy the example environment file and rename it to .env:
+
+✅ For Linux / macOS / Git Bash:
+    cp .env.example .env
+
+
+✅ For Windows (Command Prompt):
+    copy .env.example .env
+
+
+✅ For Windows (PowerShell):
+    Copy-Item .env.example .env
+
+Then, open the .env file and replace the dummy values with actual credentials 
 
     System: PostgreSQL
     Server: db
