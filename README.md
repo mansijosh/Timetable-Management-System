@@ -62,20 +62,25 @@ https://lucid.app/lucidchart/58446467-6884-4005-a6b8-872b6a062e01/edit?viewport_
 <img src="./TimetableDatabaseDesign.jpg"/>
 
 
-##  🛠️ Command to Copy .env.example to .env
+# 🛠️ Database Management with Adminer
 
-#### Copy the example environment file and rename it to .env:
+This project uses **[Adminer](https://www.adminer.org/)** as a lightweight web-based database management tool for PostgreSQL.  
+Adminer provides an easy-to-use UI to browse tables, run queries, and manage the database directly from your browser.
 
-✅ For Linux / macOS / Git Bash:
-    cp .env.example .env
+---
 
+1. Start all services:
+   ```bash
+   docker-compose up --build
 
-✅ For Windows (Command Prompt):
-    copy .env.example .env
+2. Open Adminer in your browser:
+    ```bash
+    http://localhost:8080
 
+3. Log in using the following credentials (match with your .env file):
 
-✅ For Windows (PowerShell):
-    Copy-Item .env.example .env
-
-Then, open the .env file and replace the dummy values with actual credentials 
-
+    System: PostgreSQL
+    Server: db
+    Username: <your_postgres_user>
+    Password: <your_postgres_password>
+    Database: <your_database_name>
