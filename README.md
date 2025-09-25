@@ -108,3 +108,4 @@ Adminer provides an easy-to-use UI to browse tables, run queries, and manage the
 Then, open the .env file and replace the dummy values with actual credentials 
 
    
+& "C:\Program Files\Docker\Docker\resources\bin\docker.exe" compose build

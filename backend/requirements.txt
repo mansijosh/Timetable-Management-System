@@ -8,3 +8,6 @@ pydantic-settings>=2.0        # for BaseSettings in v2
 passlib[bcrypt]              # password hashing
 python-jose[cryptography]    # JWT creation & verification
 email-validator
+python-multipart
+sqlmodel
+
