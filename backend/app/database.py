@@ -1,20 +1,14 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlmodel import SQLModel, create_engine, Session
 from app.config import settings
 
-# single shared engine
-engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
+# Create the engine
+engine = create_engine(settings.DATABASE_URL, echo=True)
 
-# session factory
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Create DB tables
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)
 
-# base class for all ORM models
-Base = declarative_base()
-
-# FastAPI dependency you’ll use in routes
+# FastAPI dependency
 def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+    with Session(engine) as session:
+        yield session
