@@ -1,6 +1,6 @@
 # 🗓️ Timetable Management System (Backend + Frontend)
 
-A smart and automated **Timetable Management System** for engineering colleges, built using **FastAPI** for backend, **React** for frontend, and **PostgreSQL** for managing complex scheduling data.
+A smart and automated **Timetable Management System** for engineering colleges, built using **FastAPI** for backend, **Svelte** for frontend, and **PostgreSQL** for managing complex scheduling data.
 
 ---
 
@@ -29,7 +29,7 @@ Common issues include:
 - Admin dashboard APIs
 - Secure role-based access (Admin, Faculty)
 
-### 💻 Frontend (React)
+### 💻 Frontend (Svelte)
 - Clean, user-friendly dashboard for Admin and Faculty
 - Drag-and-drop timetable editor
 - Real-time views of schedule
@@ -43,7 +43,7 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **Svelt** |
+| Frontend    | **Svelte** |
 | Backend     | **FastAPI** (Python) |
 | Database    | **PostgreSQL** (Recommended) |
 | Containerization | **Docker**, Docker Compose |
@@ -114,6 +114,3 @@ docker-compose up -d
    Copy-Item .env.example .env
 
 Then, open the .env file and replace the dummy values with actual credentials 
-
-   
-& "C:\Program Files\Docker\Docker\resources\bin\docker.exe" compose build
