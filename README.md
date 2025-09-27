@@ -73,7 +73,15 @@ Adminer provides an easy-to-use UI to browse tables, run queries, and manage the
 1. Start all services:
    ```bash
    docker-compose up --build
+# Stop containers
+docker-compose down
 
+# Rebuild and start in detached mode
+docker-compose up --build -d
+
+# Or rebuild just the backend service
+docker-compose build backend
+docker-compose up -d
 2. Open Adminer in your browser:
     ```bash
     http://localhost:8080

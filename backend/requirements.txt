@@ -5,7 +5,7 @@ psycopg2-binary               # PostgreSQL driver
 python-dotenv                 # load .env variables
 pydantic>=2.0                 # Pydantic v2+
 pydantic-settings>=2.0        # for BaseSettings in v2
-passlib[bcrypt]              # password hashing
+passlib[argon2]              # password hashing
 python-jose[cryptography]    # JWT creation & verification
 email-validator
 python-multipart
