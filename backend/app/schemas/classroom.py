@@ -11,9 +11,17 @@ class ClassroomBase(SQLModel):
 class ClassroomCreate(ClassroomBase):
     pass
 
-class ClassroomRead(ClassroomBase):
-    id: int
-    department: Optional[Department]
+class ClassroomUpdate(SQLModel):
+    building_name: Optional[str] = None
+    room_no: Optional[str] = None
+    capacity: Optional[int] = None
+    department_id: Optional[int] = None
 
-    class Config:
-        from_attributes = True
+class ClassroomRead(SQLModel):
+    id: int
+    building_name: str
+    room_no: str
+    capacity: int
+    department: Optional[Department] = None
+
+    model_config = {"from_attributes": True}

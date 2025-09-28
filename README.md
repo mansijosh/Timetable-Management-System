@@ -114,3 +114,118 @@ docker-compose up -d
    Copy-Item .env.example .env
 
 Then, open the .env file and replace the dummy values with actual credentials 
+
+---
+
+## 🧪 Testing
+
+The project includes comprehensive test coverage using **pytest** for all API endpoints.
+
+### Prerequisites for Testing
+
+Make sure you have the test dependencies installed:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Running Tests
+
+#### Run All Tests
+```bash
+# From the backend directory
+cd backend
+pytest
+
+# With verbose output
+pytest -v
+
+# With coverage report
+pytest --cov=app
+```
+
+#### Run Specific Test Files
+```bash
+# Test authentication APIs
+pytest tests/test_auth.py
+
+# Test department APIs
+pytest tests/test_department.py
+
+# Test classroom APIs
+pytest tests/test_classroom.py
+
+# Test faculty APIs
+pytest tests/test_faculty.py
+
+# Test subject APIs
+pytest tests/test_subject.py
+```
+
+#### Run Specific Test Functions
+```bash
+# Run a specific test function
+pytest tests/test_auth.py::test_register_user
+
+# Run tests matching a pattern
+pytest -k "test_create"
+```
+
+### Test Database Configuration
+
+The tests use **PostgreSQL** (same as production) with the following setup:
+- **Test Database**: Uses the same PostgreSQL instance as development
+- **Isolation**: Each test runs in a transaction that gets rolled back
+- **Fixtures**: Pre-configured test data for consistent testing
+- **Authentication**: Mock JWT tokens for testing protected endpoints
+
+### Test Coverage
+
+The test suite covers:
+- ✅ **Authentication**: Registration, login, password handling
+- ✅ **CRUD Operations**: Create, Read, Update, Delete for all entities
+- ✅ **Authorization**: Protected endpoint access
+- ✅ **Validation**: Input validation and error handling
+- ✅ **Relationships**: Foreign key constraints and data integrity
+- ✅ **Edge Cases**: Not found scenarios, duplicates, invalid data
+
+### Test Structure
+
+```
+backend/
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py          # Test configuration and fixtures
+│   ├── test_auth.py         # Authentication tests
+│   ├── test_department.py   # Department API tests
+│   ├── test_classroom.py    # Classroom API tests
+│   ├── test_faculty.py      # Faculty API tests
+│   └── test_subject.py      # Subject API tests
+└── pytest.ini              # Pytest configuration
+```
+
+### Environment Variables for Testing
+
+Ensure your `.env` file contains the PostgreSQL connection details:
+
+```env
+DATABASE_URL=postgresql://username:password@localhost:5432/timetable_db
+SECRET_KEY=your-secret-key
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+### Continuous Integration
+
+For CI/CD pipelines, you can run tests with:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run tests with coverage
+pytest --cov=app --cov-report=xml
+
+# Generate HTML coverage report
+pytest --cov=app --cov-report=html
+```
