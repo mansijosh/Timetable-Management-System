@@ -1,6 +1,6 @@
 from typing import Optional
 from sqlmodel import SQLModel
-from app.models.department import Department
+from app.schemas.department import DepartmentRead
 
 class ClassroomBase(SQLModel):
     building_name: str
@@ -11,9 +11,18 @@ class ClassroomBase(SQLModel):
 class ClassroomCreate(ClassroomBase):
     pass
 
-class ClassroomRead(ClassroomBase):
+class ClassroomUpdate(SQLModel):
+    building_name: Optional[str] = None
+    room_no: Optional[str] = None
+    capacity: Optional[int] = None
+    department_id: Optional[int] = None
+
+class ClassroomRead(SQLModel):
     id: int
-    department: Optional[Department]
+    building_name: str
+    room_no: str
+    capacity: int
+    department: Optional[DepartmentRead] = None
 
     class Config:
         from_attributes = True

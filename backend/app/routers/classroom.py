@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from app.database import get_db
 from app.models.classroom import Classroom
 from app.models.department import Department
-from app.schemas.classroom import ClassroomCreate, ClassroomRead
+from app.schemas.classroom import ClassroomCreate, ClassroomRead, ClassroomUpdate
 from app.crud.deps import get_current_user
 
 router = APIRouter()
@@ -26,3 +26,39 @@ def get_classrooms(session: Session = Depends(get_db),current_user = Depends(get
     statement = select(Classroom)
     results = session.exec(statement).all()
     return results
+
+@router.get("/{classroom_id}", response_model=ClassroomRead)
+def get_classroom_by_id(classroom_id: int, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    db_classroom = session.get(Classroom, classroom_id)
+    if not db_classroom:
+        raise HTTPException(status_code=404, detail="Classroom not found")
+    return db_classroom
+
+@router.put("/{classroom_id}", response_model=ClassroomRead)
+def update_classroom(classroom_id: int, classroom: ClassroomUpdate, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    db_classroom = session.get(Classroom, classroom_id)
+    if not db_classroom:
+        raise HTTPException(status_code=404, detail="Classroom not found")
+    classroom_data = classroom.model_dump(exclude_unset=True)
+    
+    # Ensure department exists if changed
+    if "department_id" in classroom_data:
+        department = session.get(Department, classroom_data["department_id"])
+        if not department:
+            raise HTTPException(status_code=404, detail="Department not found")
+    
+    for field, value in classroom_data.items():
+        setattr(db_classroom, field, value)
+    session.add(db_classroom)
+    session.commit()
+    session.refresh(db_classroom)
+    return db_classroom
+
+@router.delete("/{classroom_id}")
+def delete_classroom(classroom_id: int, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    db_classroom = session.get(Classroom, classroom_id)
+    if not db_classroom:
+        raise HTTPException(status_code=404, detail="Classroom not found")
+    session.delete(db_classroom)
+    session.commit()
+    return {"ok": True}

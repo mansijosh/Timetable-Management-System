@@ -2,12 +2,13 @@ from typing import Optional, List
 from sqlmodel import SQLModel, Field, Relationship
 
 
-class Department(SQLModel, table=True):
+class Faculty(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
-    year: int
+    department_id: int = Field(foreign_key="department.id")
     
     # Relationships
-    classrooms: List["Classroom"] = Relationship(back_populates="department")
-    faculties: List["Faculty"] = Relationship()
+    department: Optional["Department"] = Relationship()
     subjects: List["Subject"] = Relationship()
+
+
