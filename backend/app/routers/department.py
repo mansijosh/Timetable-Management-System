@@ -14,7 +14,7 @@ def create_department(dept: DepartmentCreate, db: Session = Depends(get_db),curr
     # Optional: Check if already exists
     existing = db.exec(select(Department).where(Department.name == dept.name)).first()
     if existing:
-        raise HTTPException(status_code=400, detail="Department already exists")
+        raise HTTPException(status_code=400, detail="Department with this name and year already exists")
     
     db_dept = Department.model_validate(dept)
     db.add(db_dept)

@@ -1,6 +1,6 @@
 # 🗓️ Timetable Management System (Backend + Frontend)
 
-A smart and automated **Timetable Management System** for engineering colleges, built using **FastAPI** for backend, **React** for frontend, and **PostgreSQL** for managing complex scheduling data.
+A smart and automated **Timetable Management System** for engineering colleges, built using **FastAPI** for backend, **Svelte** for frontend, and **PostgreSQL** for managing complex scheduling data.
 
 ---
 
@@ -29,7 +29,7 @@ Common issues include:
 - Admin dashboard APIs
 - Secure role-based access (Admin, Faculty)
 
-### 💻 Frontend (React)
+### 💻 Frontend (Svelte)
 - Clean, user-friendly dashboard for Admin and Faculty
 - Drag-and-drop timetable editor
 - Real-time views of schedule
@@ -43,7 +43,7 @@ Common issues include:
 
 | Layer       | Technology           |
 |-------------|----------------------|
-| Frontend    | **Svelt** |
+| Frontend    | **Svelte** |
 | Backend     | **FastAPI** (Python) |
 | Database    | **PostgreSQL** (Recommended) |
 | Containerization | **Docker**, Docker Compose |
@@ -73,7 +73,15 @@ Adminer provides an easy-to-use UI to browse tables, run queries, and manage the
 1. Start all services:
    ```bash
    docker-compose up --build
+# Stop containers
+docker-compose down
 
+# Rebuild and start in detached mode
+docker-compose up --build -d
+
+# Or rebuild just the backend service
+docker-compose build backend
+docker-compose up -d
 2. Open Adminer in your browser:
     ```bash
     http://localhost:8080
@@ -106,6 +114,3 @@ Adminer provides an easy-to-use UI to browse tables, run queries, and manage the
    Copy-Item .env.example .env
 
 Then, open the .env file and replace the dummy values with actual credentials 
-
-   
-& "C:\Program Files\Docker\Docker\resources\bin\docker.exe" compose build

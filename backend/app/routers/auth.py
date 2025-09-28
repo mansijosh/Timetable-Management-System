@@ -19,6 +19,7 @@ def register(user: UserCreate, session: Session = Depends(get_db)):
     if get_user_by_email(session, user.email):
         raise HTTPException(status_code=400, detail="Email already registered")
     return create_user(session, user)
+    
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_db)):
