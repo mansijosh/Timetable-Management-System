@@ -1,38 +1,47 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
-  
-    // List of sidebar items
-    const menuItems = [
-      { name: "Classroom", path: "../classroom" },
-      { name: "Departments", path: "../department" },
-      { name: "Users", path: "/users" },
-      { name: "Faculty", path: "/faculty" },
-      { name: "Timetable", path: "/timetable" },
-    ];
-  
-    function navigate(path: string) {
-      goto(path);
-    }
-  </script>
-  
-  <div class="flex min-h-screen">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-gray-800 text-white flex flex-col p-4">
-      <h1 class="text-2xl font-bold mb-6">Admin Panel</h1>
-  
-      {#each menuItems as item}
-        <button
-          class="text-left px-4 py-2 mb-2 rounded hover:bg-gray-700"
-          on:click={() => navigate(item.path)}
-        >
-          {item.name}
-        </button>
-      {/each}
-    </aside>
-  
-    <!-- Main content -->
-    <main class="flex-1 bg-gray-100 p-6">
-      <slot></slot> <!-- Page content will appear here -->
-    </main>
-  </div>
-  
+  import { goto } from "$app/navigation";
+
+  const menuItems = [
+    { name: "Classroom", path: "../classroom", icon: "📚" },
+    { name: "Departments", path: "../department", icon: "🏢" },
+    { name: "Users", path: "/user", icon: "👥" },
+    { name: "Faculty", path: "/faculty", icon: "🧑‍🏫" },
+    { name: "Timetable", path: "/timetable", icon: "📅" },
+  ];
+
+  function navigate(path: string) {
+    goto(path);
+  }
+</script>
+
+<div class="flex min-h-screen">
+  <!-- Sidebar -->
+  <aside
+    class="w-64 flex flex-col p-6 text-white"
+    style="background: linear-gradient(to bottom, #6A89A7, #c7d9ffff);"
+  >
+    <!-- Admin Panel Title -->
+    <h1 class="text-3xl font-bold mb-8 text-center text-yellow-300 drop-shadow-lg">Admin Panel</h1>
+
+    {#each menuItems as item}
+      <button
+        class="flex items-center gap-4 px-4 py-3 mb-3 rounded-lg transition-all duration-300
+               hover:bg-white hover:text-blue-700 shadow-md font-medium text-gray-100"
+        on:click={() => navigate(item.path)}
+      >
+        <span class="text-xl">{item.icon}</span>
+        <span>{item.name}</span>
+      </button>
+    {/each}
+  </aside>
+
+  <!-- Main content with background -->
+  <main
+    class="flex-1 p-8"
+    style="background-image: url('/dashboard-bg.jpg'); background-size: cover; background-position: center; min-height: 100vh;"
+  >
+    <div class="bg-white bg-opacity-80 p-6 rounded-xl shadow-lg min-h-full">
+      <slot></slot>
+    </div>
+  </main>
+</div>
