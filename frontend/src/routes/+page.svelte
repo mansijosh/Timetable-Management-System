@@ -6,7 +6,7 @@
   const showLogin = writable(false); // false = show register by default
 
   // Login stores
-  const loginUsername = writable("");
+  const loginEmail = writable("");
   const loginPassword = writable("");
   const loginError = writable("");
 
@@ -21,7 +21,7 @@
   async function loginUser() {
     loginError.set("");
     const formData = new URLSearchParams();
-    formData.append("username", $loginUsername);
+    formData.append("username", $loginEmail);
     formData.append("password", $loginPassword);
 
     try {
@@ -103,9 +103,9 @@
       {/if}
 
       <input
-        type="text"
-        placeholder="Username"
-        bind:value={$loginUsername}
+        type="email"
+        placeholder="Email"
+        bind:value={$loginEmail}
         class="w-full p-3 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
       <input
