@@ -23,8 +23,9 @@ def register(user: UserCreate, session: Session = Depends(get_db)):
 
 @router.post("/login")
 def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Session = Depends(get_db)):
-    db_user = get_user_by_username(session, form_data.username)
+    # treat form_data.username as email
+    db_user = get_user_by_email(session, form_data.username)
     if not db_user or not verify_password(form_data.password, db_user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    token = create_access_token({"sub": db_user.username})
+    token = create_access_token({"sub": db_user.email})
     return {"access_token": token, "token_type": "bearer"}

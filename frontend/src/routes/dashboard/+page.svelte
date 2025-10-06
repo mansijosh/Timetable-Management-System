@@ -17,7 +17,7 @@
     onMount(() => {
       const token = localStorage.getItem("token");
       if (!token) {
-        goto("/login"); // redirect if no token
+        goto("/"); // redirect to root (login/register page) if no token
         return;
       }
   
