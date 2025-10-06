@@ -51,6 +51,13 @@
     regError.set("");
     regSuccess.set("");
 
+    // simple client-side email check to avoid 422 roundtrip
+    const basicEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!$regEmail || !basicEmailRegex.test($regEmail)) {
+      regError.set("Please enter a valid email address.");
+      return;
+    }
+
     const user = {
       username: $regUsername,
       email: $regEmail,
@@ -66,7 +73,15 @@
 
       if (!res.ok) {
         const data = await res.json();
-        regError.set(data.detail || "Registration failed");
+        // FastAPI may return {detail: "..."} or {detail: [{msg: "..."}, ...]}
+        let message = "Registration failed";
+        if (data?.detail) {
+          if (typeof data.detail === "string") message = data.detail;
+          else if (Array.isArray(data.detail) && data.detail.length) {
+            message = data.detail.map((e: any) => e.msg || e.detail || "").filter(Boolean).join("; ") || message;
+          }
+        }
+        regError.set(message);
         return;
       }
 
