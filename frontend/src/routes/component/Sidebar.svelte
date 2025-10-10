@@ -38,7 +38,7 @@
 	<!-- Main content with background -->
 	<main
 		class="flex-1 p-8"
-		style="background-image: url('/dashboard-bg.jpg'); background-size: cover; background-position: center; min-height: 100vh;"
+		style=" background-size: cover; background-position: center; min-height: 100vh;"
 	>
 		<div class="bg-opacity-80 min-h-full rounded-xl bg-white p-6 shadow-lg">
 			<slot></slot>

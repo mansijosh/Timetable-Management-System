@@ -11,7 +11,9 @@
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-6xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold" style="font-family: 'Poppins', sans-serif;">Dashboard</h1>
+			<h1 class="mb-2 text-3xl font-bold" style="font-family: 'Poppins', sans-serif;">
+				departments
+			</h1>
 			<p class="text-gray-600">Welcome to TimetableIQ</p>
 		</div>
 
@@ -19,18 +21,37 @@
 			<h2 class="mb-4 text-2xl font-semibold">Departments</h2>
 
 			{#if data.departments && data.departments.length > 0}
-				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-					{#each data.departments as department}
-						<div class="rounded-lg border p-4 transition-shadow hover:shadow-md">
-							<h3 class="text-lg font-semibold text-gray-800">{department.name}</h3>
-							{#if department.description}
-								<p class="mt-2 text-sm text-gray-600">{department.description}</p>
-							{/if}
-							<div class="mt-3 text-xs text-gray-500">
-								ID: {department.id}
-							</div>
-						</div>
-					{/each}
+				<div class="overflow-x-auto">
+					<table class="min-w-full divide-y divide-gray-200">
+						<thead class="bg-gray-50">
+							<tr>
+								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+									Department Name
+								</th>
+								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+									Year
+								</th>
+								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+									Description
+								</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-gray-200 bg-white">
+							{#each data.departments as department}
+								<tr class="hover:bg-gray-50">
+									<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+										{department.name}
+									</td>
+									<td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">
+										{department.year }
+									</td>
+									<td class="px-6 py-4 text-sm text-gray-600">
+										{department.description || '-'}
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
 				</div>
 			{:else}
 				<div class="py-8 text-center text-gray-500">
