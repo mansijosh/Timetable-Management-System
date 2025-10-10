@@ -36,3 +36,21 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Authentication Flow
+
+In this project, **user authentication** has been implemented with the following structure:
+
+### Register
+- Takes three input fields:
+  - **Username**
+  - **Email ID**
+  - **Password**
+
+### Login
+- Takes two input fields:
+  - **Username** → This is actually the **email** entered at the time of registration  
+  - **Password** → Same as the password set during registration
+
+> Note: During login, the **email is used as the username** for authentication.
+
