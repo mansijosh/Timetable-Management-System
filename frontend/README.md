@@ -54,3 +54,20 @@ In this project, **user authentication** has been implemented with the following
 
 > Note: During login, the **email is used as the username** for authentication.
 
+### Using Lucide Icons in Svelte
+# Step 1: Install Lucide Svelte
+npm install lucide-svelte
+
+# Step 2: Import the Icon in Your Component
+  <script>
+    import { CalendarDays } from 'lucide-svelte';
+  </script>
+
+# Step 3: Use the Icon in Your Template
+<CalendarDays class="w-6 h-6 text-black" />
+
+
+# w-6 h-6 sets the size of the icon.
+
+# text-black sets the color. You can adjust it to any color you want.
+

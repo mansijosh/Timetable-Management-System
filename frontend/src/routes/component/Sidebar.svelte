@@ -2,13 +2,15 @@
 	import { goto } from '$app/navigation';
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
 
+	import { BookOpenText,Hotel,UserRoundPen,GraduationCap,BookMarked,CalendarDays } from 'lucide-svelte';
+
 	const menuItems = [
-		{ name: 'Classroom', path: '../classroom', icon: '📚' },
-		{ name: 'Departments', path: '../department', icon: '🏢' },
-		{ name: 'Users', path: '/user', icon: '👥' },
-		{ name: 'Faculty', path: '/faculty', icon: '🧑‍🏫' },
-		{ name: 'Subjects', path: '/subject', icon: '📖'},
-		{ name: 'Timetable', path: '/timetable', icon: '📅' }
+		{ name: 'Classroom', path: '../classroom', icon: BookOpenText },
+		{ name: 'Departments', path: '../department', icon: Hotel },
+		{ name: 'Users', path: '/user', icon: UserRoundPen },
+		{ name: 'Faculty', path: '/faculty', icon: GraduationCap},
+		{ name: 'Subjects', path: '/subject', icon: BookMarked},
+		{ name: 'Timetable', path: '/timetable', icon: CalendarDays }
 	];
 
 	function navigate(path: string) {
@@ -24,7 +26,7 @@
 	>
 		<!-- Top Section -->
 		<div>
-			<h1 class="mb-8 text-center text-3xl font-bold text-yellow-300 drop-shadow-lg">
+			<h1 class="mb-8 text-center text-3xl font-bold text-black">
 				Admin Panel
 			</h1>
 
@@ -34,7 +36,8 @@
                     shadow-md transition-all duration-300 hover:bg-white hover:text-blue-700"
 					on:click={() => navigate(item.path)}
 				>
-					<span class="text-xl">{item.icon}</span>
+					<svelte:component this={item.icon} class="w-5 h-5 text-black" />
+
 					<span>{item.name}</span>
 				</button>
 			{/each}
