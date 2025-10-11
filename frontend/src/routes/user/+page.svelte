@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { Users  } from 'lucide-svelte';
+	import { Users } from 'lucide-svelte';
 
 	interface Props {
 		data: PageData;
@@ -12,10 +12,10 @@
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-6xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-		<h1 class="mb-2 text-3xl font-bold flex items-center gap-2" >
-	<Users   class="w-8 h-8 p-1" />
-	Users
-</h1>
+			<h1 class="mb-2 flex items-center gap-2 text-3xl font-bold">
+				<Users class="h-8 w-8 p-1" />
+				Users
+			</h1>
 			<p class="text-gray-600">Welcome to TimetableIQ</p>
 		</div>
 
@@ -27,10 +27,14 @@
 					<table class="min-w-full divide-y divide-gray-200">
 						<thead class="bg-gray-50">
 							<tr>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Username
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Email
 								</th>
 							</tr>
@@ -38,10 +42,10 @@
 						<tbody class="divide-y divide-gray-200 bg-white">
 							{#each data.users as user}
 								<tr class="hover:bg-gray-50">
-									<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+									<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900">
 										{user.username}
 									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">
+									<td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700">
 										{user.email}
 									</td>
 								</tr>
