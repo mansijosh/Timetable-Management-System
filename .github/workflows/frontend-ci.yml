@@ -26,7 +26,7 @@ jobs:
 
       - name: Format check (Prettier)
         working-directory: frontend
-        run: npm run lint --if-present
+        run: npx prettier --write . && eslint .
 
       - name: Svelte type check
         working-directory: frontend

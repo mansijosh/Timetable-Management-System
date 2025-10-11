@@ -81,5 +81,6 @@ npm install lucide-svelte
 npm install        # install clean dependencies
 npm run lint  # run Prettier check
 npx svelte-check  # check Svelte warnings/errors
+npx prettier --check .
 npm run build # optional, verify build works
 
