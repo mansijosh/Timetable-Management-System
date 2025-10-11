@@ -1,5 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { user } from '$lib/stores/userStore';
+
 
   // --- Common state ---
   let showLogin = $state(false); // false = show register by default
@@ -17,36 +19,54 @@
   let regSuccess = $state("");
 
   // --- Login Function ---
-  async function loginUser() {
+async function loginUser() {
     loginError = "";
     const formData = new URLSearchParams();
     formData.append("username", loginEmail);
     formData.append("password", loginPassword);
 
     try {
-      const res = await fetch("http://localhost:8000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: formData
-      });
+        const res = await fetch("http://localhost:8000/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: formData
+        });
 
-      if (!res.ok) {
+        if (!res.ok) {
+            const data = await res.json();
+            loginError = data.detail || "Login failed";
+            return;
+        }
+
         const data = await res.json();
-        loginError = data.detail || "Login failed";
-        return;
-      }
 
-      const data = await res.json();
-      
-      // Store token in cookie instead of localStorage for server-side access
-      document.cookie = `token=${data.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
-      
-      goto("/dashboard");
+        // Store token in cookie
+        document.cookie = `token=${data.access_token}; path=/; max-age=${60*60*24*7}`;
+
+        // --- Fetch user info immediately ---
+        const userRes = await fetch("http://localhost:8000/profile/me", {
+            headers: {
+                "Authorization": `Bearer ${data.access_token}`,
+                "Accept": "application/json"
+            }
+        });
+
+        if (userRes.ok) {
+            const userData = await userRes.json();
+            user.set({
+                name: userData.username,
+                email: userData.email,
+                avatar: ""
+            });
+        }
+
+        goto("/dashboard"); // navigate to dashboard
     } catch (err: unknown) {
-      if (err instanceof Error) loginError = err.message;
-      else loginError = String(err);
+        if (err instanceof Error) loginError = err.message;
+        else loginError = String(err);
     }
-  }
+}
+
 
   // --- Register Function ---
   async function registerUser() {
