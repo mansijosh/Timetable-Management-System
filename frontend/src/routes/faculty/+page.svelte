@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { GraduationCap  } from 'lucide-svelte';
+	import { GraduationCap } from 'lucide-svelte';
 	import type { PageData } from './$types';
 
 	interface Props {
@@ -12,10 +12,10 @@
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-7xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2" >
-	<GraduationCap   class="w-8 h-8 p-1" />
-	Faculties
-</h1>
+			<h1 class="mb-2 flex items-center gap-2 text-3xl font-bold">
+				<GraduationCap class="h-8 w-8 p-1" />
+				Faculties
+			</h1>
 			<p class="text-gray-600">Manage all faculties and their details</p>
 		</div>
 
@@ -32,13 +32,19 @@
 					<table class="min-w-full divide-y divide-gray-200">
 						<thead class="bg-gray-50">
 							<tr>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Name
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Department
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Year
 								</th>
 							</tr>
@@ -46,13 +52,13 @@
 						<tbody class="divide-y divide-gray-200 bg-white">
 							{#each data.faculties as faculty}
 								<tr class="hover:bg-gray-50">
-									<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+									<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900">
 										{faculty.name}
 									</td>
 									<td class="px-6 py-4 text-sm text-gray-700">
 										{faculty.department?.name || 'N/A'}
 									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">
+									<td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700">
 										{faculty.department?.year}
 									</td>
 								</tr>
