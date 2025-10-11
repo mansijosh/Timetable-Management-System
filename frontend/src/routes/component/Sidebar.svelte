@@ -6,7 +6,8 @@
 		{ name: 'Departments', path: '../department', icon: '🏢' },
 		{ name: 'Users', path: '/user', icon: '👥' },
 		{ name: 'Faculty', path: '/faculty', icon: '🧑‍🏫' },
-		{ name: 'Timetable', path: '/timetable', icon: '📅' }
+		{ name: 'Subjects', path: '/subject', icon: '📖'},
+	    { name: 'Timetable', path: '/timetable', icon: '📅' }
 	];
 
 	function navigate(path: string) {
