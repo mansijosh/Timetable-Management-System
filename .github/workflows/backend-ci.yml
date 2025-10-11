@@ -1,0 +1,45 @@
+name: CI — Backend (FastAPI)
+
+on:
+  pull_request:
+    paths:
+      - 'fastapi/**'
+      - '.github/workflows/backend-ci.yml'
+
+jobs:
+  test:
+    name: lint, type-check & test (fastapi)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python (with cache)
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: fastapi/requirements.txt
+
+      - name: Install dependencies
+        working-directory: fastapi
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+
+      - name: Lint (ruff or flake8 if present)
+        working-directory: fastapi
+        run: |
+          if command -v ruff >/dev/null 2>&1; then ruff check .; \
+          elif command -v flake8 >/dev/null 2>&1; then flake8 .; \
+          else echo "No linter installed (ruff/flake8). Skipping lint."; fi
+
+      - name: Type check (mypy) — optional
+        working-directory: fastapi
+        run: |
+          if command -v mypy >/dev/null 2>&1; then mypy --ignore-missing-imports .; \
+          else echo "mypy not installed, skipping type check."; fi
+
+      - name: Run tests (pytest)
+        working-directory: fastapi
+        run: pytest -q --maxfail=1
