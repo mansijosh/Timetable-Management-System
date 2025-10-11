@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Users } from 'lucide-svelte';
+	import { GraduationCap  } from 'lucide-svelte';
 	import type { PageData } from './$types';
 
 	interface Props {
@@ -12,9 +12,8 @@
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-7xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			
 			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2" >
-	<Users  class="w-8 h-8 p-1" />
+	<GraduationCap   class="w-8 h-8 p-1" />
 	Faculties
 </h1>
 			<p class="text-gray-600">Manage all faculties and their details</p>
