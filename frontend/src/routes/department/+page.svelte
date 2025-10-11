@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { LayoutDashboard } from 'lucide-svelte';
 	import type { PageData } from './$types';
 
 	interface Props {
@@ -10,10 +11,12 @@
 
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-6xl">
-		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold" style="font-family: 'Poppins', sans-serif;">
-				departments
-			</h1>
+		<div class="mb-6 rounded-lg bg-white p-6 shadow-md ">
+			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2" >
+	<LayoutDashboard class="w-8 h-8 p-1" />
+	Departments
+</h1>
+
 			<p class="text-gray-600">Welcome to TimetableIQ</p>
 		</div>
 

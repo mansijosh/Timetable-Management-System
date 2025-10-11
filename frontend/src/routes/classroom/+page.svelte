@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { Building2 } from 'lucide-svelte';
+
 
 	interface Props {
 		data: PageData;
@@ -11,9 +13,11 @@
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-7xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold" style="font-family: 'Poppins', sans-serif;">
-				Classrooms
-			</h1>
+		<h1 class="mb-2 text-3xl font-bold flex items-center gap-2">
+  <Building2 class="w-8 h-8 p-1" />
+  Classrooms
+</h1>
+
 			<p class="text-gray-600">Manage all classrooms and their details</p>
 		</div>
 
