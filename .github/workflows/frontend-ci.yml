@@ -1,0 +1,37 @@
+name: CI — Frontend (Svelte)
+
+on:
+  pull_request:
+    paths:
+      - 'front/**'
+      - '.github/workflows/frontend-ci.yml'
+
+jobs:
+  build-and-test:
+    name: build & test (front)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Use Node.js (with cache)
+        uses: actions/setup-node@v5
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: front/package-lock.json
+
+      - name: Install dependencies
+        working-directory: front
+        run: npm ci
+
+      - name: Lint
+        working-directory: front
+        run: npm run lint --if-present
+
+      - name: Run unit tests
+        working-directory: front
+        run: npm test --if-present
+
+      - name: Build
+        working-directory: front
+        run: npm run build
