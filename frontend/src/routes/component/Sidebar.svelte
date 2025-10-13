@@ -48,14 +48,17 @@
 			{/each}
 		</div>
 
-		<!-- Bottom Section -->
-		<div class="flex flex-row items-center border-t border-gray-300 pt-6">
+		<!-- Bottom Section - Clickable Profile -->
+		<button 
+			class="flex w-full flex-row items-center border-t border-gray-300 pt-6 transition-opacity hover:opacity-80"
+			on:click={() => navigate('/profile')}
+		>
 			<Avatar.Root class="h-12 w-12">
 				<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
 				<Avatar.Fallback>CN</Avatar.Fallback>
 			</Avatar.Root>
 			<p class="mt-2 pl-2 text-sm font-semibold text-black">xyz</p>
-		</div>
+		</button>
 	</aside>
 
 	<!-- Main content with background -->
