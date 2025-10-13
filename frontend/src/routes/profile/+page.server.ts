@@ -1,12 +1,5 @@
-import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-
-interface Subject {
-	id: number;
-	name: string;
-	professor?: { id: number; name: string };
-	department?: { id: number; name: string };
-}
+import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ cookies, fetch }) => {
 	const token = cookies.get('token');
@@ -16,7 +9,7 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 	}
 
 	try {
-		const response = await fetch('http://localhost:8000/subject', {
+		const response = await fetch('http://localhost:8000/user/me', {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -32,21 +25,23 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 
 			const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
 			return {
-				subjects: [],
-				error: errorData.detail || `Failed to fetch subjects: ${response.statusText}`
+				user: null,
+				error: errorData.detail || `Failed to fetch profile: ${response.statusText}`
 			};
 		}
 
-		const subjects: Subject[] = await response.json();
 		return {
-			subjects,
+			user: await response.json(),
 			error: null
 		};
 	} catch (error) {
-		console.error('Error fetching subjects:', error);
+		if (error instanceof Response && error.status === 302) {
+			throw error;
+		}
+
 		return {
-			subjects: [],
-			error: error instanceof Error ? error.message : 'Failed to fetch subjects'
+			user: null,
+			error: error instanceof Error ? error.message : 'Failed to fetch profile'
 		};
 	}
 };

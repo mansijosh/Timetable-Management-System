@@ -13,8 +13,8 @@
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-6xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2">
-				<LayoutDashboard class="w-8 h-8 p-1" />
+			<h1 class="mb-2 flex items-center gap-2 text-3xl font-bold">
+				<LayoutDashboard class="h-8 w-8 p-1" />
 				Departments
 			</h1>
 
@@ -29,16 +29,24 @@
 					<table class="min-w-full divide-y divide-gray-200">
 						<thead class="bg-gray-50">
 							<tr>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Department Name
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Year
 								</th>
-								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Description
 								</th>
-								<th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+								<th
+									class="px-6 py-3 text-center text-xs font-medium tracking-wider text-gray-500 uppercase"
+								>
 									Actions
 								</th>
 							</tr>
@@ -50,10 +58,10 @@
 									<td class="px-6 py-4 text-sm text-gray-700">{department.year}</td>
 									<td class="px-6 py-4 text-sm text-gray-600">{department.description || '-'}</td>
 									<td class="px-6 py-4 text-center">
-										<form method="POST"  action="?/deleteDepartment" use:enhance>
+										<form method="POST" action="?/deleteDepartment" use:enhance>
 											<input type="hidden" name="id" value={department.id} />
 											<button type="submit" class="text-red-600 hover:text-red-800">
-												<Trash2 class="w-5 h-5 inline-block" />
+												<Trash2 class="inline-block h-5 w-5" />
 											</button>
 										</form>
 									</td>

@@ -2,14 +2,21 @@
 	import { goto } from '$app/navigation';
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
 
-	import { BookOpenText,Hotel,UserRoundPen,GraduationCap,BookMarked,CalendarDays } from 'lucide-svelte';
+	import {
+		BookOpenText,
+		Hotel,
+		UserRoundPen,
+		GraduationCap,
+		BookMarked,
+		CalendarDays
+	} from 'lucide-svelte';
 
 	const menuItems = [
 		{ name: 'Classroom', path: '../classroom', icon: BookOpenText },
 		{ name: 'Departments', path: '../department', icon: Hotel },
 		{ name: 'Users', path: '/user', icon: UserRoundPen },
-		{ name: 'Faculty', path: '/faculty', icon: GraduationCap},
-		{ name: 'Subjects', path: '/subject', icon: BookMarked},
+		{ name: 'Faculty', path: '/faculty', icon: GraduationCap },
+		{ name: 'Subjects', path: '/subject', icon: BookMarked },
 		{ name: 'Timetable', path: '/timetable', icon: CalendarDays }
 	];
 
@@ -26,9 +33,7 @@
 	>
 		<!-- Top Section -->
 		<div>
-			<h1 class="mb-8 text-center text-3xl font-bold text-black">
-				Admin Panel
-			</h1>
+			<h1 class="mb-8 text-center text-3xl font-bold text-black">Admin Panel</h1>
 
 			{#each menuItems as item}
 				<button
@@ -36,21 +41,24 @@
                     shadow-md transition-all duration-300 hover:bg-white hover:text-blue-700"
 					on:click={() => navigate(item.path)}
 				>
-					<svelte:component this={item.icon} class="w-5 h-5 text-black" />
+					<svelte:component this={item.icon} class="h-5 w-5 text-black" />
 
 					<span>{item.name}</span>
 				</button>
 			{/each}
 		</div>
 
-		<!-- Bottom Section -->
-		<div class="flex flex-row items-center border-t border-gray-300 pt-6">
+		<!-- Bottom Section - Clickable Profile -->
+		<button
+			class="flex w-full flex-row items-center border-t border-gray-300 pt-6 transition-opacity hover:opacity-80"
+			on:click={() => navigate('/profile')}
+		>
 			<Avatar.Root class="h-12 w-12">
 				<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
 				<Avatar.Fallback>CN</Avatar.Fallback>
 			</Avatar.Root>
 			<p class="mt-2 pl-2 text-sm font-semibold text-black">xyz</p>
-		</div>
+		</button>
 	</aside>
 
 	<!-- Main content with background -->
