@@ -75,3 +75,20 @@ npm install lucide-svelte
 # w-6 h-6 sets the size of the icon.
 
 # text-black sets the color. You can adjust it to any color you want.
+
+## Code Formatting with Prettier
+
+We use **Prettier** to keep our frontend code clean and consistent.  
+Before committing or pushing your changes, make sure all files are properly formatted.
+
+### Check formatting
+
+To check if your files are formatted correctly:
+
+```bash
+npx prettier --check "**/*.{js,ts,svelte,css,scss,md,json}"
+```
+
+```bash
+npx prettier --write "**/*.{js,ts,svelte,css,scss,md,json}"
+```
