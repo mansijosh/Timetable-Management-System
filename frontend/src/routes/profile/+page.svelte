@@ -24,8 +24,13 @@
 				<div class="flex items-center justify-between">
 					<div class="flex items-center gap-6">
 						<Avatar.Root class="h-24 w-24 border-4 border-white shadow-lg">
-							<Avatar.Image src={data.user.avatar || 'https://github.com/shadcn.png'} alt={data.user.username} />
-							<Avatar.Fallback class="text-2xl">{data.user.username?.charAt(0).toUpperCase()}</Avatar.Fallback>
+							<Avatar.Image
+								src={data.user.avatar || 'https://github.com/shadcn.png'}
+								alt={data.user.username}
+							/>
+							<Avatar.Fallback class="text-2xl"
+								>{data.user.username?.charAt(0).toUpperCase()}</Avatar.Fallback
+							>
 						</Avatar.Root>
 						<div class="text-white">
 							<h2 class="text-3xl font-bold">{data.user.username}</h2>

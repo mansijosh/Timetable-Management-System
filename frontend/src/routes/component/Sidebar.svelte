@@ -49,7 +49,7 @@
 		</div>
 
 		<!-- Bottom Section - Clickable Profile -->
-		<button 
+		<button
 			class="flex w-full flex-row items-center border-t border-gray-300 pt-6 transition-opacity hover:opacity-80"
 			on:click={() => navigate('/profile')}
 		>
