@@ -33,17 +33,17 @@
 						<thead class="bg-gray-50">
 							<tr>
 								<th
-									class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
 								>
 									Name
 								</th>
 								<th
-									class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
 								>
 									Department
 								</th>
 								<th
-									class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500"
+									class="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
 								>
 									Year
 								</th>
@@ -52,13 +52,13 @@
 						<tbody class="divide-y divide-gray-200 bg-white">
 							{#each data.faculties as faculty}
 								<tr class="hover:bg-gray-50">
-									<td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+									<td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-900">
 										{faculty.name}
 									</td>
 									<td class="px-6 py-4 text-sm text-gray-700">
 										{faculty.department?.name || 'N/A'}
 									</td>
-									<td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">
+									<td class="px-6 py-4 text-sm whitespace-nowrap text-gray-700">
 										{faculty.department?.year}
 									</td>
 								</tr>
