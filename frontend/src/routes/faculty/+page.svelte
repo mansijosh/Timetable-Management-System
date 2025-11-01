@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { GraduationCap  } from 'lucide-svelte';
+	import { GraduationCap, Trash2 } from 'lucide-svelte';
+	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
 
 	interface Props {
@@ -12,20 +13,15 @@
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-7xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2" >
-	<GraduationCap   class="w-8 h-8 p-1" />
-	Faculties
-</h1>
-			<p class="text-gray-600">Manage all faculties and their details</p>
+			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2">
+				<GraduationCap class="w-8 h-8 p-1" />
+				Faculties
+			</h1>
+			<p class="text-gray-600">Manage all faculties</p>
 		</div>
 
 		<div class="rounded-lg bg-white p-6 shadow-md">
-			<div class="mb-4 flex items-center justify-between">
-				<h2 class="text-2xl font-semibold">All Faculties</h2>
-				<span class="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
-					Total: {data.faculties?.length || 0}
-				</span>
-			</div>
+			<h2 class="mb-4 text-2xl font-semibold">All Faculties</h2>
 
 			{#if data.faculties && data.faculties.length > 0}
 				<div class="overflow-x-auto">
@@ -41,6 +37,9 @@
 								<th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
 									Year
 								</th>
+								<th class="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+									Actions
+								</th>
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-gray-200 bg-white">
@@ -53,7 +52,19 @@
 										{faculty.department?.name || 'N/A'}
 									</td>
 									<td class="whitespace-nowrap px-6 py-4 text-sm text-gray-700">
-										{faculty.department?.year}
+										{faculty.department?.year || '-'}
+									</td>
+									<td class="px-6 py-4 text-center">
+										<form method="POST" action="?/deleteFaculty" use:enhance>
+											<input type="hidden" name="id" value={faculty.id} />
+											<button
+												type="submit"
+												class="text-red-600 hover:text-red-800"
+												title="Delete Faculty"
+											>
+												<Trash2 class="w-5 h-5 inline-block" />
+											</button>
+										</form>
 									</td>
 								</tr>
 							{/each}

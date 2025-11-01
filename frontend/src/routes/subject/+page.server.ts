@@ -1,52 +1,59 @@
-import { redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
-
-interface Subject {
-  id: number;
-  name: string;
-  professor?: { id: number; name: string };
-  department?: { id: number; name: string };
-}
+import { redirect, fail } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ cookies, fetch }) => {
   const token = cookies.get('token');
-
-  if (!token) {
-    throw redirect(302, '/');
-  }
+  if (!token) throw redirect(302, '/');
 
   try {
-    const response = await fetch('http://localhost:8000/subject', {
-      method: 'GET',
+    const res = await fetch('http://localhost:8000/subject', {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       }
     });
 
-    if (!response.ok) {
-      if (response.status === 401) {
+    if (!res.ok) {
+      if (res.status === 401) {
         cookies.delete('token', { path: '/' });
         throw redirect(302, '/');
       }
-
-      const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
-      return {
-        subjects: [],
-        error: errorData.detail || `Failed to fetch subjects: ${response.statusText}`
-      };
+      const errorData = await res.json().catch(() => ({ detail: 'Unknown error' }));
+      return { subjects: [], error: errorData.detail || 'Failed to fetch subjects' };
     }
 
-    const subjects: Subject[] = await response.json();
-    return {
-      subjects,
-      error: null
-    };
-  } catch (error) {
-    console.error('Error fetching subjects:', error);
-    return {
-      subjects: [],
-      error: error instanceof Error ? error.message : 'Failed to fetch subjects'
-    };
+    const subjects = await res.json();
+    return { subjects, error: null };
+  } catch (err) {
+    return { subjects: [], error: err instanceof Error ? err.message : 'Failed to fetch subjects' };
+  }
+};
+
+export const actions: Actions = {
+  deleteSubject: async ({ request, cookies }) => {
+    const token = cookies.get('token');
+    if (!token) throw redirect(302, '/');
+
+    const formData = await request.formData();
+    const id = formData.get('id');
+
+    try {
+      const res = await fetch(`http://localhost:8000/subject/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        return fail(400, { error: error.detail || 'Failed to delete subject' });
+      }
+
+      return { success: true };
+    } catch (err) {
+      return fail(500, { error: 'Server error while deleting subject' });
+    }
   }
 };
