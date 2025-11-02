@@ -1,12 +1,13 @@
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const load: PageServerLoad = async ({ cookies, fetch }) => {
   const token = cookies.get('token');
   if (!token) throw redirect(302, '/');
 
   try {
-    const res = await fetch('http://localhost:8000/subject', {
+    const res = await fetch(`${API_URL}/subject`, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -38,7 +39,7 @@ export const actions: Actions = {
     const id = formData.get('id');
 
     try {
-      const res = await fetch(`http://localhost:8000/subject/${id}`, {
+      const res = await fetch(`${API_URL}/subject/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
