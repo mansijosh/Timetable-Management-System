@@ -1,10 +1,13 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 interface Department {
 	id: number;
 	name: string;
-	year: number;
+	year?: number;
+	description?: string;
 }
 
 interface Faculty {
@@ -14,17 +17,14 @@ interface Faculty {
 }
 
 export const load: PageServerLoad = async ({ cookies, fetch }) => {
-	// Get token from cookie
 	const token = cookies.get('token');
 
-	// Redirect to login if no token
 	if (!token) {
 		throw redirect(302, '/');
 	}
 
 	try {
-		// Fetch faculties from backend
-		const response = await fetch('http://localhost:8000/faculty/', {
+		const response = await fetch(`${API_URL}/faculty`, {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -61,5 +61,36 @@ export const load: PageServerLoad = async ({ cookies, fetch }) => {
 			faculties: [],
 			error: error instanceof Error ? error.message : 'Failed to fetch faculties'
 		};
+	}
+};
+
+export const actions: Actions = {
+	deleteFaculty: async ({ request, cookies, fetch }) => {
+		const data = await request.formData();
+		const id = data.get('id') as string;
+		const token = cookies.get('token');
+
+		if (!token) return fail(401, { error: 'Not authorized' });
+		if (!id) return fail(400, { error: 'Faculty ID missing' });
+
+		try {
+			const res = await fetch(`${API_URL}/faculty/${id}`, {
+				method: 'DELETE',
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json'
+				}
+			});
+
+			if (!res.ok) {
+				console.error('Delete failed:', res.statusText);
+				throw redirect(303, '/faculty');
+			}
+
+			throw redirect(303, '/faculty');
+		} catch (err) {
+			console.error(err);
+			throw redirect(303, '/faculty');
+		}
 	}
 };

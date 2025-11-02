@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // --- Common state ---
   let showLogin = $state(false); // false = show register by default
@@ -24,7 +25,7 @@
     formData.append("password", loginPassword);
 
     try {
-      const res = await fetch("http://localhost:8000/auth/login", {
+      const res = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: formData
@@ -67,7 +68,7 @@
     };
 
     try {
-      const res = await fetch("http://localhost:8000/auth/register", {
+      const res = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
