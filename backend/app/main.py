@@ -6,6 +6,8 @@ from app.routers import  faculty
 from app.routers import  subject
 from app.routers import auth
 from app.routers import user
+from app.routers import user_role
+
 from app.middleware import add_timing_middleware  
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
@@ -31,3 +33,4 @@ app.include_router(classroom.router, prefix="/classroom", tags=["classroom"])
 app.include_router(faculty.router, prefix="/faculty", tags=["Faculty"])
 app.include_router(subject.router, prefix="/subject", tags=["Subject"])
 app.include_router(user.router, prefix="/user", tags=["User"])
+app.include_router(user_role.router, prefix="/user_role", tags=["User Role"])
