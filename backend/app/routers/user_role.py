@@ -4,7 +4,7 @@ from app.database import get_db
 from app.crud import user_role as crud
 from app.schemas.user_role import UserRoleCreate, UserRoleRead
 
-router = APIRouter(prefix="/roles", tags=["User Roles"])
+router = APIRouter()
 
 @router.post("/", response_model=UserRoleRead)
 def create_role(role_data: UserRoleCreate, db: Session = Depends(get_db)):
