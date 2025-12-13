@@ -1,1 +1,2 @@
 Feature 3 data
+git commit --amend --no-edit
