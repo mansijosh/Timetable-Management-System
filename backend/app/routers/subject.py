@@ -12,7 +12,7 @@ router = APIRouter()
 
 @router.post("/", response_model=SubjectRead)
 def create_subject(subject: SubjectCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    if not db.get(Faculty, subject.professor_id):
+    if not db.get(Faculty, subject.faculty_id):
         raise HTTPException(status_code=404, detail="Faculty not found")
     if not db.get(Department, subject.department_id):
         raise HTTPException(status_code=404, detail="Department not found")
@@ -38,7 +38,7 @@ def update_subject(subject_id: int, subject: SubjectUpdate, db: Session = Depend
     db_subject = db.get(Subject, subject_id)
     if not db_subject:
         raise HTTPException(status_code=404, detail="Subject not found")
-    if not db.get(Faculty, subject.professor_id):
+    if not db.get(Faculty, subject.faculty_id):
         raise HTTPException(status_code=404, detail="Faculty not found")
     if not db.get(Department, subject.department_id):
         raise HTTPException(status_code=404, detail="Department not found")
