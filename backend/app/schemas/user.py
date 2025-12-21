@@ -5,6 +5,7 @@ import re
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
+    phone_number: str | None
     password: str
 
 @validator("email")
@@ -22,12 +23,14 @@ class UserLogin(BaseModel):
 class UserUpdate(BaseModel):
     username: str | None = None
     email: EmailStr | None = None
+    phone_number: str | None = None
     password: str | None = None
 
 class UserOut(BaseModel):
     id: int
     username: str
     email: EmailStr
+    phone_number: str | None
 
     class Config:
         orm_mode = True
