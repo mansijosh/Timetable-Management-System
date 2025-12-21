@@ -12,7 +12,7 @@ router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
 @router.get("/stats")
 def get_dashboard_stats(
     db: Session = Depends(get_db),
-    current_user = Depends(get_current_user)  # optional but recommended
+    current_user = Depends(get_current_user)
 ):
     try:
         total_subjects = db.exec(select(func.count(Subject.id))).one()
