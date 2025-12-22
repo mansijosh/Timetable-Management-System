@@ -25,7 +25,7 @@
                   Name
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Professor
+                  Faculty
                 </th>
                 <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Department
@@ -37,7 +37,7 @@
               {#each data.subjects as subject}
                 <tr class="hover:bg-gray-50">
                   <td class="px-6 py-4 text-sm font-medium text-gray-900">{subject.name}</td>
-                  <td class="px-6 py-4 text-sm text-gray-700">{subject.professor?.name || '-'}</td>
+                  <td class="px-6 py-4 text-sm text-gray-700">{subject.faculty?.name || '-'}</td>
                   <td class="px-6 py-4 text-sm text-gray-700">{subject.department?.name || '-'}</td>
                   <td class="px-6 py-4 text-right">
                     <form method="POST" action="?/deleteSubject" use:enhance>
