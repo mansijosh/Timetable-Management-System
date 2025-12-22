@@ -7,25 +7,21 @@ from app.models.faculty import Faculty
 from app.models.classroom import Classroom
 from app.models.department import Department
 from app.crud.deps import get_current_user
+from app.schemas.dashboard import DashboardReadStats
 
-router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
+router = APIRouter()
 @router.get("/stats")
 def get_dashboard_stats(
     db: Session = Depends(get_db),
     current_user = Depends(get_current_user)
 ):
     try:
-        total_subjects = db.exec(select(func.count(Subject.id))).one()
-        total_faculties = db.exec(select(func.count(Faculty.id))).one()
-        total_classrooms = db.exec(select(func.count(Classroom.id))).one()
-        total_departments = db.exec(select(func.count(Department.id))).one()
-
-        return {
-            "total_subjects": total_subjects,
-            "total_faculties": total_faculties,
-            "total_classrooms": total_classrooms,
-            "total_departments": total_departments,
-        }
+        return DashboardReadStats(
+            total_subjects = db.exec(select(func.count(Subject.id))).one(),
+            total_faculties = db.exec(select(func.count(Faculty.id))).one(),
+            total_classrooms = db.exec(select(func.count(Classroom.id))).one(),
+            total_departments = db.exec(select(func.count(Department.id))).one()
+        )
 
     except Exception as e:
         raise HTTPException(
