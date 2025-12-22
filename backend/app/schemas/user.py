@@ -7,6 +7,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     phone_number: str | None
     password: str
+    role_id: int | None = None
 
 @validator("email")
 def validate_domain(cls, v):
@@ -25,12 +26,14 @@ class UserUpdate(BaseModel):
     email: EmailStr | None = None
     phone_number: str | None = None
     password: str | None = None
+    role_id: int | None = None
 
 class UserOut(BaseModel):
     id: int
     username: str
     email: EmailStr
     phone_number: str | None
+    role_id: int | None = None
 
     class Config:
         orm_mode = True
