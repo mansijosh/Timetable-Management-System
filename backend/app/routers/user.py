@@ -3,6 +3,7 @@ from sqlmodel import Session, select
 from app.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate, UserOut, UserUpdate
+from app.schemas.utils import Message
 from app.crud.deps import get_current_user
 
 router = APIRouter()
@@ -35,7 +36,7 @@ def update_user(user_id: int, user: UserUpdate, session: Session = Depends(get_d
     session.refresh(db_user)
     return db_user
 
-@router.delete("/{user_id}")
+@router.delete("/{user_id}", response_model=Message)
 def delete_user(user_id: int, session: Session = Depends(get_db), current_user=Depends(get_current_user)):
     db_user = session.get(User, user_id)
     if not db_user:
@@ -43,4 +44,4 @@ def delete_user(user_id: int, session: Session = Depends(get_db), current_user=D
     
     session.delete(db_user)
     session.commit()
-    return {"ok": True}
+    return Message(message="User deleted successfully")
