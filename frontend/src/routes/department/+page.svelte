@@ -2,6 +2,9 @@
 	import { LayoutDashboard, Trash2 } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import Tooltip from '../component/Tooltip.svelte';
+
+
 
 	interface Props {
 		data: PageData;
@@ -14,9 +17,18 @@
 	<div class="mx-auto max-w-6xl">
 		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
 			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2">
-				<LayoutDashboard class="w-8 h-8 p-1" />
+				<Tooltip description="This is a tooltip description">
+  <span
+    slot="trigger"
+    class="inline-flex items-center justify-center"
+  >
+    <LayoutDashboard class="w-8 h-8" />
+  </span>
+</Tooltip>
+
 				Departments
 			</h1>
+		
 
 			<p class="text-gray-600">Welcome to TimetableIQ</p>
 		</div>
