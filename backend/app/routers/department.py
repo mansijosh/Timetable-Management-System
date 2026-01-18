@@ -55,12 +55,13 @@ def delete_department(department_id: int, db: Session = Depends(get_db), current
     existing = db.get(Department, department_id)
     if not existing:
         raise HTTPException(status_code=404, detail="Department not found")
+    deleted_data = {
+                     "id" : existing.id,
+                     "name": existing.name,
+                     "year": existing.year                             
+                 }
     db.delete(existing)
     db.commit()
     return DeleteResponse(message="Department deleted successfully",
-                            data = {
-                                    "id" : existing.id,
-                                    "name": existing.name,
-                                    "year": existing.year
-                            }
+                          data=deleted_data
     )
