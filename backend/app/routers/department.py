@@ -5,7 +5,7 @@ from typing import List
 from app.database import get_db
 from app.models.department import Department
 from app.schemas.department import DepartmentCreate, DepartmentRead, DepartmentUpdate
-from app.schemas.utils import Message
+from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
 router = APIRouter()
@@ -50,11 +50,18 @@ def update_department(department_id: int, dept: DepartmentUpdate, db: Session = 
     db.refresh(existing)
     return existing
 
-@router.delete("/{department_id}", response_model = Message)
+@router.delete("/{department_id}", response_model = DeleteResponse)
 def delete_department(department_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     existing = db.get(Department, department_id)
     if not existing:
         raise HTTPException(status_code=404, detail="Department not found")
+    deleted_data = {
+                     "id" : existing.id,
+                     "name": existing.name,
+                     "year": existing.year                             
+                 }
     db.delete(existing)
     db.commit()
-    return Message(message="Department deleted successfully")
+    return DeleteResponse(message="Department deleted successfully",
+                          data=deleted_data
+    )
