@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from app.database import get_db
 from app.schemas.role import RoleCreate, RoleRead
-from app.schemas.utils import Message, DeleteResponse
+from app.schemas.utils import DeleteResponse
 from app.crud.role import create_role, get_roles, get_role_by_id, delete_role
 from app.crud.deps import get_current_user
 
