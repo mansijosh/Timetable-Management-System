@@ -6,7 +6,7 @@ from app.models.subject import Subject
 from app.models.faculty import Faculty
 from app.models.department import Department
 from app.schemas.subject import SubjectCreate, SubjectRead, SubjectUpdate
-from app.schemas.utils import Message
+from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
 router = APIRouter()
@@ -52,13 +52,21 @@ def update_subject(subject_id: int, subject: SubjectUpdate, db: Session = Depend
     db.refresh(db_subject)
     return db_subject
 
-@router.delete("/{subject_id}", response_model=Message)
+@router.delete("/{subject_id}", response_model=DeleteResponse)
 def delete_subject(subject_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     db_subject = db.get(Subject, subject_id)
     if not db_subject:
         raise HTTPException(status_code=404, detail="Subject not found")
+    deleted_data = {
+                     "id" : db_subject.id,
+                     "name": db_subject.name,
+                     "faculty_id": db_subject.faculty_id,
+                     "department_id": db_subject.department_id
+                   }
     db.delete(db_subject)
     db.commit()
-    return Message(message="Subject deleted successfully")
+    return DeleteResponse(message="Subject deleted successfully",
+                          data=deleted_data
+                        )
 
 
