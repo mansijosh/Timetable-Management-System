@@ -36,11 +36,11 @@ def get_classroom_by_id(classroom_id: int, session: Session = Depends(get_db), c
     return classroom
 
 @router.put("/{classroom_id}", response_model=ClassroomRead)
-def update_classroom(classroom_id: int, classroom: ClassroomUpdate, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
+def update_classroom(classroom_id: int, classroom_update: ClassroomUpdate, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
     classroom = session.get(Classroom, classroom_id)
     if not classroom:
         raise HTTPException(status_code=404, detail="Classroom not found")
-    classroom_data = classroom.model_dump(exclude_unset=True)
+    classroom_data = classroom_update.model_dump(exclude_unset=True)
     
     # Ensure department exists if changed
     if "department_id" in classroom_data:
