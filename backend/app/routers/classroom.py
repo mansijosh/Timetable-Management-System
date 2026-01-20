@@ -16,11 +16,11 @@ def create_classroom(classroom: ClassroomCreate, session: Session = Depends(get_
     if not department:
         raise HTTPException(status_code=404, detail="Department not found")
 
-    db_classroom = Classroom.model_validate(classroom)
-    session.add(db_classroom)
+    classroom = Classroom.model_validate(classroom)
+    session.add(classroom)
     session.commit()
-    session.refresh(db_classroom)
-    return db_classroom
+    session.refresh(classroom)
+    return classroom
 
 @router.get("/", response_model=list[ClassroomRead])
 def get_classrooms(session: Session = Depends(get_db),current_user = Depends(get_current_user)):
@@ -30,15 +30,15 @@ def get_classrooms(session: Session = Depends(get_db),current_user = Depends(get
 
 @router.get("/{classroom_id}", response_model=ClassroomRead)
 def get_classroom_by_id(classroom_id: int, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    db_classroom = session.get(Classroom, classroom_id)
-    if not db_classroom:
+    classroom = session.get(Classroom, classroom_id)
+    if not classroom:
         raise HTTPException(status_code=404, detail="Classroom not found")
-    return db_classroom
+    return classroom
 
 @router.put("/{classroom_id}", response_model=ClassroomRead)
 def update_classroom(classroom_id: int, classroom: ClassroomUpdate, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    db_classroom = session.get(Classroom, classroom_id)
-    if not db_classroom:
+    classroom = session.get(Classroom, classroom_id)
+    if not classroom:
         raise HTTPException(status_code=404, detail="Classroom not found")
     classroom_data = classroom.model_dump(exclude_unset=True)
     
@@ -49,24 +49,24 @@ def update_classroom(classroom_id: int, classroom: ClassroomUpdate, session: Ses
             raise HTTPException(status_code=404, detail="Department not found")
     
     for field, value in classroom_data.items():
-        setattr(db_classroom, field, value)
-    session.add(db_classroom)
+        setattr(classroom, field, value)
+    session.add(classroom)
     session.commit()
-    session.refresh(db_classroom)
-    return db_classroom
+    session.refresh(classroom)
+    return classroom
 
 @router.delete("/{classroom_id}", response_model=DeleteResponse)
 def delete_classroom(classroom_id: int, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
-    db_classroom = session.get(Classroom, classroom_id)
-    if not db_classroom:
+    classroom = session.get(Classroom, classroom_id)
+    if not classroom:
         raise HTTPException(status_code=404, detail="Classroom not found")
     deleted_data = {
-                     "id" : db_classroom.id,
-                     "building_name": db_classroom.building_name,
-                     "Classroom_number": db_classroom.room_no,
-                     "department_id": db_classroom.department_id                             
+                     "id" : classroom.id,
+                     "building_name": classroom.building_name,
+                     "classroom_no": classroom.room_no,
+                     "department_id": classroom.department_id                             
                  }
-    session.delete(db_classroom)
+    session.delete(classroom)
     session.commit()
     return DeleteResponse(message= "Classroom deleted successfully",
                           data= deleted_data
