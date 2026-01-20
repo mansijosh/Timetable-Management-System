@@ -48,7 +48,7 @@ def update_faculty(faculty_id: int, faculty: FacultyUpdate, db: Session = Depend
     return db_faculty
 
 @router.delete("/{faculty_id}", response_model=DeleteResponse)
-def delete_faculty(faculty_id: int, db: Session = Depends(get_db), _current_user = Depends(get_current_user)):
+def delete_faculty(faculty_id: int, db: Session = Depends(get_db), _current_user = Depends(get_current_user)): # noqa: B008
     db_faculty = db.get(Faculty, faculty_id)
     if not db_faculty:
         raise HTTPException(status_code=404, detail="Faculty not found")
