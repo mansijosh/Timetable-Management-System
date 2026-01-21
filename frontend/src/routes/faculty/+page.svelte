@@ -2,6 +2,7 @@
 	import { GraduationCap, Trash2 } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
+	import PageHeader from '$lib/component/PageHeader.svelte';
 
 	interface Props {
 		data: PageData;
@@ -12,13 +13,13 @@
 
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-7xl">
-		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2">
-				<GraduationCap class="w-8 h-8 p-1" />
-				Faculties
-			</h1>
-			<p class="text-gray-600">Manage all faculties</p>
-		</div>
+		
+		<PageHeader
+	title="Faculties"
+	subtitle="Manage all faculties"
+	Icon={GraduationCap}
+/>
+
 
 		<div class="rounded-lg bg-white p-6 shadow-md">
 			<h2 class="mb-4 text-2xl font-semibold">All Faculties</h2>

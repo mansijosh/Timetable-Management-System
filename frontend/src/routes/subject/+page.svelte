@@ -2,17 +2,19 @@
   import type { PageData } from './$types';
   import { Trash2 } from 'lucide-svelte';
   import { enhance } from '$app/forms';
+	import PageHeader from '$lib/component/PageHeader.svelte';
 
   export let data: PageData;
 </script>
 
 <div class="min-h-screen bg-gray-100 p-8">
   <div class="mx-auto max-w-6xl">
-    <div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-      <h1 class="mb-2 text-3xl font-bold">Subjects</h1>
-      <p class="text-gray-600">Manage all subjects</p>
-    </div>
-
+   
+<PageHeader
+	title="Subjects"
+	subtitle="Manage all subjects"
+	
+/>
     <div class="rounded-lg bg-white p-6 shadow-md">
       <h2 class="mb-4 text-2xl font-semibold">All Subjects</h2>
 

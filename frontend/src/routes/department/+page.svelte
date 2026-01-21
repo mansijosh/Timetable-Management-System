@@ -2,6 +2,7 @@
 	import { LayoutDashboard, Trash2 } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
+	import PageHeader from '$lib/component/PageHeader.svelte';
 
 	interface Props {
 		data: PageData;
@@ -12,14 +13,12 @@
 
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-6xl">
-		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2">
-				<LayoutDashboard class="w-8 h-8 p-1" />
-				Departments
-			</h1>
-
-			<p class="text-gray-600">Welcome to TimetableIQ</p>
-		</div>
+		
+		<PageHeader
+	title="Departments"
+	subtitle="Manage all Departments and their details"
+	Icon={LayoutDashboard}
+/>
 
 		<div class="rounded-lg bg-white p-6 shadow-md">
 			<h2 class="mb-4 text-2xl font-semibold">Departments</h2>
