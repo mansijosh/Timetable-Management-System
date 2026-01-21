@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from app.database import get_db
 from app.models.classroom import Classroom
 from app.models.department import Department
-from app.schemas.classroom import ClassroomCreate, ClassroomRead, ClassroomUpdate
+from app.schemas.classroom import ClassroomCreate, ClassroomRead, ClassroomUpdate,DeleteClassroomResponse
 from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
@@ -54,20 +54,23 @@ def update_classroom(classroom_id: int, classroom: ClassroomUpdate, session: Ses
     session.commit()
     session.refresh(db_classroom)
     return db_classroom
-
-@router.delete("/{classroom_id}", response_model=DeleteResponse)
-def delete_classroom(classroom_id: int, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
+@router.delete("/{classroom_id}", response_model=DeleteClassroomResponse)
+def delete_classroom(
+    classroom_id: int,
+    session: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
     db_classroom = session.get(Classroom, classroom_id)
     if not db_classroom:
         raise HTTPException(status_code=404, detail="Classroom not found")
-    deleted_data = {
-                     "id" : db_classroom.id,
-                     "building_name": db_classroom.building_name,
-                     "classroom_no": db_classroom.room_no,
-                     "department_id": db_classroom.department_id                             
-                 }
+
+    
+    classroom_public = ClassroomRead.model_validate(db_classroom)
+
     session.delete(db_classroom)
     session.commit()
-    return DeleteResponse(message= "Classroom deleted successfully",
-                          data= deleted_data
-                        )
+
+    return DeleteClassroomResponse(
+        message="Classroom deleted successfully",
+        data=classroom_public
+    )

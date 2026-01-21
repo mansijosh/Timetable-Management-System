@@ -26,3 +26,7 @@ class ClassroomRead(SQLModel):
 
     class Config:
         from_attributes = True
+
+class DeleteClassroomResponse(SQLModel):
+    message: str
+    data: ClassroomRead| None = None
