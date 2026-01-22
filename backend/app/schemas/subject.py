@@ -24,3 +24,7 @@ class SubjectRead(SQLModel):
 
     class Config:
         from_attributes = True
+        
+class DeleteSubjectResponse(SQLModel):
+    message: str
+    data: SubjectRead | None = None
