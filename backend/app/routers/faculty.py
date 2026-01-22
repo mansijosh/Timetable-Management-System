@@ -4,8 +4,8 @@ from typing import List
 from app.database import get_db
 from app.models.faculty import Faculty
 from app.models.department import Department
-from app.schemas.faculty import FacultyCreate, FacultyRead, FacultyUpdate
-from app.schemas.utils import Message
+from app.schemas.faculty import FacultyCreate, FacultyRead, FacultyUpdate, DeleteFacultyResponse
+from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
 router = APIRouter()
@@ -47,13 +47,17 @@ def update_faculty(faculty_id: int, faculty: FacultyUpdate, db: Session = Depend
     db.refresh(db_faculty)
     return db_faculty
 
-@router.delete("/{faculty_id}", response_model=Message)
-def delete_faculty(faculty_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+@router.delete("/{faculty_id}", response_model=DeleteFacultyResponse)
+def delete_faculty(faculty_id: int, db: Session = Depends(get_db), _current_user = Depends(get_current_user)): # noqa: B008
     db_faculty = db.get(Faculty, faculty_id)
     if not db_faculty:
         raise HTTPException(status_code=404, detail="Faculty not found")
+    
+    faculty_public = FacultyRead.model_validate(db_faculty)
     db.delete(db_faculty)
     db.commit()
-    return Message(message="Faculty deleted successfully")
+    return DeleteFacultyResponse(message="Faculty deleted successfully",
+                          data= faculty_public
+                    )
 
 

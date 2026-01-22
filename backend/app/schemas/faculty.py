@@ -20,3 +20,9 @@ class FacultyRead(SQLModel):
 
     class Config:
         from_attributes = True
+        
+class DeleteFacultyResponse(SQLModel):
+    message: str
+    data: FacultyRead | None = None
+
+
