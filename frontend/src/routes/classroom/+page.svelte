@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { Building2, Trash2 } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
+	import PageHeader from '$lib/component/PageHeader.svelte';
 
 	interface Props {
 		data: PageData;
@@ -12,15 +13,12 @@
 
 <div class="min-h-screen bg-gray-100 p-8">
 	<div class="mx-auto max-w-7xl">
-		<!-- Header -->
-		<div class="mb-6 rounded-lg bg-white p-6 shadow-md">
-			<h1 class="mb-2 text-3xl font-bold flex items-center gap-2">
-				<Building2 class="w-8 h-8 p-1" />
-				Classrooms
-			</h1>
-			<p class="text-gray-600">Manage all classrooms and their details</p>
-		</div>
-
+		
+		<PageHeader
+	title="Classrooms"
+	subtitle="Manage all classrooms and their details"
+	Icon={Building2}
+/>
 		<!-- Table -->
 		<div class="rounded-lg bg-white p-6 shadow-md">
 			<div class="mb-4 flex items-center justify-between">
