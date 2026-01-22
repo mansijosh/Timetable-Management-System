@@ -21,10 +21,12 @@ class SubjectRead(SQLModel):
     name: str
     faculty: Optional[FacultyRead] = None
     department: Optional[DepartmentRead] = None
+    
+class DeleteSubjectResponse(SQLModel):
+    message: str
+    data: SubjectRead | None = None
 
     class Config:
         from_attributes = True
         
-class DeleteSubjectResponse(SQLModel):
-    message: str
-    data: SubjectRead | None = None
+
