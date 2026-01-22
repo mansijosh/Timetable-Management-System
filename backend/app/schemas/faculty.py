@@ -17,6 +17,11 @@ class FacultyRead(SQLModel):
     id: int
     name: str
     department: Optional[DepartmentRead] = None
+    
+class DeleteFacultyResponse(SQLModel):
+    message: str
+    data: FacultyRead | None = None
 
     class Config:
         from_attributes = True
+
