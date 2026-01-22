@@ -8,4 +8,11 @@ class RoleRead(BaseModel):
     role_name: str
     
     class Config:
-        orm_mode = True
+        from_attributes = True
+    
+class DeleteRoleResponse(BaseModel):
+    message: str
+    data: RoleRead | None = None
+    
+    
+        
