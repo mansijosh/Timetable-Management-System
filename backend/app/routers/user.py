@@ -14,6 +14,12 @@ def get_users(session: Session = Depends(get_db), current_user=Depends(get_curre
     results = session.exec(statement).all()
     return results
 
+@router.get("/me", response_model=UserOut)
+def get_current_user_info(current_user=Depends(get_current_user)):
+    if not current_user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return current_user
+
 @router.get("/{user_id}", response_model=UserOut)
 def get_user_by_id(user_id: int, session: Session = Depends(get_db), current_user=Depends(get_current_user)):
     db_user = session.get(User, user_id)
