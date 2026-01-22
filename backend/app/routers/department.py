@@ -4,7 +4,7 @@ from sqlmodel import Session, select
 from typing import List
 from app.database import get_db
 from app.models.department import Department
-from app.schemas.department import DepartmentCreate, DepartmentRead, DepartmentUpdate
+from app.schemas.department import DepartmentCreate, DepartmentRead, DepartmentUpdate, DeleteDepartmentResponse
 from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
@@ -50,18 +50,15 @@ def update_department(department_id: int, dept: DepartmentUpdate, db: Session = 
     db.refresh(existing)
     return existing
 
-@router.delete("/{department_id}", response_model = DeleteResponse)
+@router.delete("/{department_id}", response_model = DeleteDepartmentResponse)
 def delete_department(department_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     existing = db.get(Department, department_id)
     if not existing:
         raise HTTPException(status_code=404, detail="Department not found")
-    deleted_data = {
-                     "id" : existing.id,
-                     "name": existing.name,
-                     "year": existing.year                             
-                 }
+    
+    department_public = DepartmentRead.model_validate(existing)
     db.delete(existing)
     db.commit()
-    return DeleteResponse(message="Department deleted successfully",
-                          data=deleted_data
+    return DeleteDepartmentResponse(message="Department deleted successfully",
+                          data=department_public
     )
