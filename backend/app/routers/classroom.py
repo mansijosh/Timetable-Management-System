@@ -3,8 +3,8 @@ from sqlmodel import Session, select
 from app.database import get_db
 from app.models.classroom import Classroom
 from app.models.department import Department
-from app.schemas.classroom import ClassroomCreate, ClassroomRead, ClassroomUpdate
-from app.schemas.utils import Message
+from app.schemas.classroom import ClassroomCreate, ClassroomRead, ClassroomUpdate,DeleteClassroomResponse
+from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
 router = APIRouter()
@@ -54,12 +54,23 @@ def update_classroom(classroom_id: int, classroom: ClassroomUpdate, session: Ses
     session.commit()
     session.refresh(db_classroom)
     return db_classroom
-
-@router.delete("/{classroom_id}", response_model=Message)
-def delete_classroom(classroom_id: int, session: Session = Depends(get_db), current_user = Depends(get_current_user)):
+@router.delete("/{classroom_id}", response_model=DeleteClassroomResponse)
+def delete_classroom(
+    classroom_id: int,
+    session: Session = Depends(get_db),
+    current_user=Depends(get_current_user)
+):
     db_classroom = session.get(Classroom, classroom_id)
     if not db_classroom:
         raise HTTPException(status_code=404, detail="Classroom not found")
+
+    
+    classroom_public = ClassroomRead.model_validate(db_classroom)
+
     session.delete(db_classroom)
     session.commit()
-    return Message(message="Classroom deleted successfully")
+
+    return DeleteClassroomResponse(
+        message="Classroom deleted successfully",
+        data=classroom_public
+    )
