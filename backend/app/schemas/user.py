@@ -36,4 +36,8 @@ class UserOut(BaseModel):
     role_id: int | None = None
 
     class Config:
-        orm_mode = True
+         from_attributes = True
+        
+class DeleteUserResponse(BaseModel):
+    message: str
+    data: UserOut | None = None
