@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session
 from app.database import get_db
-from app.schemas.role import RoleCreate, RoleRead
+from app.schemas.role import RoleCreate, RoleRead, DeleteRoleResponse
 from app.schemas.utils import DeleteResponse
 from app.crud.role import create_role, get_roles, get_role_by_id, delete_role
 from app.crud.deps import get_current_user
@@ -23,15 +23,19 @@ def read_role(role_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Role not found")
     return role
 
-@router.delete("/{role_id}", response_model=DeleteResponse)
+@router.delete("/{role_id}", response_model=DeleteRoleResponse)
 def remove_role(role_id: int, db: Session = Depends(get_db)):
     role = get_role_by_id(db, role_id)
     if not role:
         raise HTTPException(status_code=404, detail="Role not found")
-    deleted_data = {
-                     "id" : role.id,
-                     "role_name": role.role_name
-                   }
-    delete_role(db, role_id)
-    return DeleteResponse(message="Role deleted successfully",
-                          data = deleted_data)
+    
+    role_public = RoleRead.model_validate(role)
+    
+    db.delete(role)
+    db.commit()
+
+    
+    return DeleteRoleResponse(message="Role deleted successfully",
+                          data = role_public)
+    
+    
