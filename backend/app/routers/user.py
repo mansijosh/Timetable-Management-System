@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 from app.database import get_db
 from app.models.user import User
-from app.schemas.user import UserCreate, UserOut, UserUpdate
+from app.schemas.user import UserCreate, UserOut, UserUpdate, DeleteUserResponse
 from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
@@ -36,20 +36,18 @@ def update_user(user_id: int, user: UserUpdate, session: Session = Depends(get_d
     session.refresh(db_user)
     return db_user
 
-@router.delete("/{user_id}", response_model=DeleteResponse)
+@router.delete("/{user_id}", response_model=DeleteUserResponse)
 def delete_user(user_id: int, session: Session = Depends(get_db), current_user=Depends(get_current_user)):
     db_user = session.get(User, user_id)
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
     
+    user_public = UserOut.model_validate(db_user)
+    
     session.delete(db_user)
     session.commit()
-    return DeleteResponse(message="User deleted successfully",
-                          data={
-                              "id": db_user.id,
-                              "email": db_user.email,
-                              "username": db_user.username
-                          }
-    )
+    return DeleteUserResponse(message="User deleted successfully",
+                              data=user_public
+                           )
     
     
