@@ -74,8 +74,7 @@ def test_create_subject_unauthorized(client: TestClient, session: Session, test_
 def test_get_subjects(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test getting all subjects"""
     
-    from app.models.faculty import Faculty
-    from app.models.subject import Subject
+   
     faculty = Faculty(name="Dr. List Professor", department_id=test_department.id)
     session.add(faculty)
     session.commit()
@@ -93,8 +92,7 @@ def test_get_subjects(client: TestClient, auth_headers: dict, session: Session, 
 
 def test_get_subject_by_id(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test getting subject by ID"""
-    from app.models.faculty import Faculty
-    from app.models.subject import Subject
+   
     faculty = Faculty(name="Dr. ID Test Professor", department_id=test_department.id)
     session.add(faculty)
     session.commit()
@@ -119,8 +117,7 @@ def test_get_subject_not_found(client: TestClient, auth_headers: dict):
 
 def test_update_subject(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test updating subject"""
-    from app.models.faculty import Faculty
-    from app.models.subject import Subject
+ 
     faculty = Faculty(name="Dr. Update Professor", department_id=test_department.id)
     session.add(faculty)
     session.commit()
@@ -142,30 +139,36 @@ def test_update_subject(client: TestClient, auth_headers: dict, session: Session
     assert data["name"] == "Updated Subject"
     assert data["id"] == subject.id
 
-# def test_update_subject_partial(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
-#     """Test partial update of subject"""
-#     from app.models.faculty import Faculty
-#     from app.models.subject import Subject
-#     faculty = Faculty(name="Dr. Partial Professor", department_id=test_department.id)
-#     session.add(faculty)
-#     session.commit()
-#     session.refresh(faculty)
+def test_update_subject_partial(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
+    """Test partial update of subject"""
     
-#     subject = Subject(name="Partial Test Subject", faculty_id=faculty.id, department_id=test_department.id)
-#     session.add(subject)
-#     session.commit()
-#     session.refresh(subject)
+    faculty = Faculty(name="Dr. Partial Professor", department_id=test_department.id)
+    session.add(faculty)
+    session.commit()
+    session.refresh(faculty)
     
-#     update_data = {
-#         "name": "Partially Updated Subject"
-#         # professor_id and department_id not provided, should remain unchanged
-#     }
-#     response = client.put(f"/subject/{subject.id}", json=update_data, headers=auth_headers)
-#     assert response.status_code == 200
-#     data = response.json()
-#     assert data["name"] == "Partially Updated Subject"
-#     assert data["professor_id"] == faculty.id  # Should remain unchanged
-#     assert data["department_id"] == test_department.id  # Should remain unchanged
+    subject = Subject(name="Partial Test Subject", faculty_id=faculty.id, department_id=test_department.id)
+    session.add(subject)
+    session.commit()
+    session.refresh(subject)
+    
+    update_data = {
+        "name": "Partially Updated Subject",
+         "faculty_id": faculty.id,
+        "department_id": test_department.id
+        
+    }
+    response = client.put(f"/subject/{subject.id}", json=update_data, headers=auth_headers)
+    assert response.status_code == 200
+    
+    data = response.json()
+    assert data["name"] == "Partially Updated Subject"
+    assert data["faculty"]["id"] == faculty.id
+    assert data["faculty"]["name"] == "Dr. Partial Professor"
+
+    # Department assertions
+    assert data["department"]["id"] == test_department.id
+    assert data["department"]["name"] == "Computer Science"
 
 def test_update_subject_invalid_faculty(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test updating subject with invalid faculty"""

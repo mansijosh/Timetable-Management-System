@@ -75,13 +75,13 @@ def test_update_department_partial(client: TestClient, auth_headers: dict, test_
     """Test partial update of department"""
     update_data = {
         "name": "Updated Computer Science"
-        # year not provided, should remain unchanged
+       
     }
     response = client.put(f"/department/{test_department.id}", json=update_data, headers=auth_headers)
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Updated Computer Science"
-    assert data["year"] == 2024  # Original year should remain
+    assert data["year"] == 2024  
 
 def test_update_department_not_found(client: TestClient, auth_headers: dict):
     """Test updating non-existent department"""
