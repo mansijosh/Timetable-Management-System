@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
 
   // --- Common state ---
-  let showLogin = $state(false); // false = show register by default
+  let showLogin = $state(true); // true = show login by default
 
   // Login state
   let loginEmail = $state("");
@@ -41,7 +41,8 @@
       // Store token in cookie instead of localStorage for server-side access
       document.cookie = `token=${data.access_token}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
       
-      goto("/dashboard");
+      // Redirect to dashboard and invalidate all to refresh server-side state
+      goto("/dashboard", { invalidateAll: true });
     } catch (err: unknown) {
       if (err instanceof Error) loginError = err.message;
       else loginError = String(err);

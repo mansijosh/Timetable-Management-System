@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import * as Avatar from '$lib/components/ui/avatar/index.js';
+	import type { Snippet } from 'svelte';
 
-	import { BookOpenText,Hotel,UserRoundPen,GraduationCap,BookMarked,CalendarDays } from 'lucide-svelte';
+	import { BookOpenText,Hotel,UserRoundPen,GraduationCap,BookMarked,CalendarDays,LogOut } from 'lucide-svelte';
+
+	let { children }: { children?: Snippet } = $props();
 
 	const menuItems = [
 		{ name: 'Classroom', path: '../classroom', icon: BookOpenText },
@@ -15,6 +18,15 @@
 
 	function navigate(path: string) {
 		goto(path);
+	}
+
+	function logout() {
+		// Delete the token cookie
+		document.cookie = 'token=; path=/; max-age=0';
+		// Also clear from localStorage if it exists
+		localStorage.removeItem('token');
+		// Redirect to login page
+		goto('/');
 	}
 </script>
 
@@ -31,12 +43,13 @@
 			</h1>
 
 			{#each menuItems as item}
+				{@const Icon = item.icon}
 				<button
-					class="mb-3 flex w-full items-center gap-4 rounded-lg px-4 py-3 font-medium text-gray-100
+					class="group mb-3 flex w-full items-center gap-4 rounded-lg px-4 py-3 font-medium text-gray-100
                     shadow-md transition-all duration-300 hover:bg-white hover:text-blue-700"
-					on:click={() => navigate(item.path)}
+					onclick={() => navigate(item.path)}
 				>
-					<svelte:component this={item.icon} class="w-5 h-5 text-black" />
+					<Icon class="w-5 h-5 text-black group-hover:text-blue-700 transition-colors" />
 
 					<span>{item.name}</span>
 				</button>
@@ -44,12 +57,22 @@
 		</div>
 
 		<!-- Bottom Section -->
-		<div class="flex flex-row items-center border-t border-gray-300 pt-6">
-			<Avatar.Root class="h-12 w-12">
-				<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
-				<Avatar.Fallback>CN</Avatar.Fallback>
-			</Avatar.Root>
-			<p class="mt-2 pl-2 text-sm font-semibold text-black">xyz</p>
+		<div class="border-t border-gray-300 pt-6">
+			<div class="flex flex-row items-center mb-4">
+				<Avatar.Root class="h-12 w-12">
+					<Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+					<Avatar.Fallback>CN</Avatar.Fallback>
+				</Avatar.Root>
+				<p class="mt-2 pl-2 text-sm font-semibold text-black">xyz</p>
+			</div>
+			<button
+				class="group flex w-full items-center gap-4 rounded-lg px-4 py-3 font-medium text-gray-100
+                    shadow-md transition-all duration-300 hover:bg-red-500 hover:text-white"
+				onclick={logout}
+			>
+				<LogOut class="w-5 h-5 text-black group-hover:text-white transition-colors" />
+				<span>Logout</span>
+			</button>
 		</div>
 	</aside>
 
@@ -59,7 +82,7 @@
 		style=" background-size: cover; background-position: center; min-height: 100vh;"
 	>
 		<div class="bg-opacity-80 min-h-full rounded-xl bg-white p-6 shadow-lg">
-			<slot></slot>
+			{@render children?.()}
 		</div>
 	</main>
 </div>

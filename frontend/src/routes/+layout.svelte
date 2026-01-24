@@ -4,17 +4,17 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import Sidebar from './component/Sidebar.svelte';
 
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="flex min-h-screen">
-	<Sidebar />
-	<div class="flex-1 p-6">
+{#if data.isAuthenticated && !data.isLoginPage}
+	<Sidebar>
 		{@render children?.()}
-		<!-- renders the page content -->
-	</div>
-</div>
+	</Sidebar>
+{:else}
+	{@render children?.()}
+{/if}
