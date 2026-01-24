@@ -7,7 +7,7 @@ from app.models.subject import Subject
 
 def test_create_subject(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test creating a new subject"""
-    # Create a faculty first
+   
     from app.models.faculty import Faculty
     faculty = Faculty(name="Dr. Subject Professor", department_id=test_department.id)
     session.add(faculty)
@@ -16,22 +16,22 @@ def test_create_subject(client: TestClient, auth_headers: dict, session: Session
     
     subject_data = {
         "name": "Advanced Mathematics",
-        "professor_id": faculty.id,
+        "faculty_id": faculty.id,
         "department_id": test_department.id
     }
     response = client.post("/subject/", json=subject_data, headers=auth_headers)
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Advanced Mathematics"
-    assert data["professor_id"] == faculty.id
-    assert data["department_id"] == test_department.id
+    assert data["faculty"]["id"] == faculty.id
+    assert data["department"]["id"] == test_department.id
     assert "id" in data
 
 def test_create_subject_invalid_faculty(client: TestClient, auth_headers: dict, test_department: Department):
     """Test creating subject with non-existent faculty"""
     subject_data = {
         "name": "Test Subject",
-        "professor_id": 999,  # Non-existent faculty
+        "faculty_id": 999,  
         "department_id": test_department.id
     }
     response = client.post("/subject/", json=subject_data, headers=auth_headers)
@@ -41,15 +41,15 @@ def test_create_subject_invalid_faculty(client: TestClient, auth_headers: dict, 
 def test_create_subject_invalid_department(client: TestClient, auth_headers: dict, session: Session):
     """Test creating subject with non-existent department"""
     from app.models.faculty import Faculty
-    faculty = Faculty(name="Dr. Test Professor", department_id=1)  # Assuming dept 1 exists
+    faculty = Faculty(name="Dr. Test Professor", department_id=1) 
     session.add(faculty)
     session.commit()
     session.refresh(faculty)
     
     subject_data = {
         "name": "Test Subject",
-        "professor_id": faculty.id,
-        "department_id": 999  # Non-existent department
+        "faculty_id": faculty.id,
+        "department_id": 999  
     }
     response = client.post("/subject/", json=subject_data, headers=auth_headers)
     assert response.status_code == 404
@@ -65,7 +65,7 @@ def test_create_subject_unauthorized(client: TestClient, session: Session, test_
     
     subject_data = {
         "name": "Unauthorized Subject",
-        "professor_id": faculty.id,
+        "faculty_id": faculty.id,
         "department_id": test_department.id
     }
     response = client.post("/subject/", json=subject_data)
@@ -73,7 +73,7 @@ def test_create_subject_unauthorized(client: TestClient, session: Session, test_
 
 def test_get_subjects(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test getting all subjects"""
-    # Create a faculty and subject first
+    
     from app.models.faculty import Faculty
     from app.models.subject import Subject
     faculty = Faculty(name="Dr. List Professor", department_id=test_department.id)
@@ -81,7 +81,7 @@ def test_get_subjects(client: TestClient, auth_headers: dict, session: Session, 
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="List Test Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="List Test Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     
@@ -100,7 +100,7 @@ def test_get_subject_by_id(client: TestClient, auth_headers: dict, session: Sess
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="ID Test Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="ID Test Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     session.refresh(subject)
@@ -126,14 +126,14 @@ def test_update_subject(client: TestClient, auth_headers: dict, session: Session
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="Original Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="Original Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     session.refresh(subject)
     
     update_data = {
         "name": "Updated Subject",
-        "professor_id": faculty.id,
+        "faculty_id": faculty.id,
         "department_id": test_department.id
     }
     response = client.put(f"/subject/{subject.id}", json=update_data, headers=auth_headers)
@@ -151,7 +151,7 @@ def test_update_subject_partial(client: TestClient, auth_headers: dict, session:
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="Partial Test Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="Partial Test Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     session.refresh(subject)
@@ -176,7 +176,7 @@ def test_update_subject_invalid_faculty(client: TestClient, auth_headers: dict, 
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="Invalid Test Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="Invalid Test Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     session.refresh(subject)
@@ -199,7 +199,7 @@ def test_update_subject_invalid_department(client: TestClient, auth_headers: dic
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="Invalid Dept Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="Invalid Dept Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     session.refresh(subject)
@@ -211,7 +211,7 @@ def test_update_subject_invalid_department(client: TestClient, auth_headers: dic
     }
     response = client.put(f"/subject/{subject.id}", json=update_data, headers=auth_headers)
     assert response.status_code == 404
-    assert "Department not found" in response.json()["detail"]
+    assert "not found" in response.json()["detail"].lower()
 
 def test_update_subject_not_found(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test updating non-existent subject"""
@@ -223,7 +223,7 @@ def test_update_subject_not_found(client: TestClient, auth_headers: dict, sessio
     
     update_data = {
         "name": "Non-existent Subject",
-        "professor_id": faculty.id,
+        "faculty_id": faculty.id,
         "department_id": test_department.id
     }
     response = client.put("/subject/999", json=update_data, headers=auth_headers)
@@ -239,14 +239,16 @@ def test_delete_subject(client: TestClient, auth_headers: dict, session: Session
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="To Be Deleted Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="To Be Deleted Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     session.refresh(subject)
     
     response = client.delete(f"/subject/{subject.id}", headers=auth_headers)
     assert response.status_code == 200
-    assert response.json()["ok"] is True
+    data= response.json()
+    assert data["message"] == "Subject deleted successfully"
+    assert data["data"]["id"] == subject.id
     
     # Verify subject is deleted
     response = client.get(f"/subject/{subject.id}", headers=auth_headers)
@@ -267,7 +269,7 @@ def test_subject_unauthorized_access(client: TestClient, session: Session, test_
     session.commit()
     session.refresh(faculty)
     
-    subject = Subject(name="Unauthorized Subject", professor_id=faculty.id, department_id=test_department.id)
+    subject = Subject(name="Unauthorized Subject", faculty_id=faculty.id, department_id=test_department.id)
     session.add(subject)
     session.commit()
     session.refresh(subject)

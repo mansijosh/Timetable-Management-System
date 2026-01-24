@@ -27,7 +27,7 @@ def test_create_classroom_invalid_department(client: TestClient, auth_headers: d
         "building_name": "Engineering Building",
         "room_no": "E101",
         "capacity": 50,
-        "department_id": 999  # Non-existent department
+        "department_id": 999  
     }
     response = client.post("/classroom/", json=classroom_data, headers=auth_headers)
     assert response.status_code == 404
@@ -88,14 +88,14 @@ def test_update_classroom_partial(client: TestClient, auth_headers: dict, test_c
     """Test partial update of classroom"""
     update_data = {
         "capacity": 75
-        # Other fields not provided, should remain unchanged
+        
     }
     response = client.put(f"/classroom/{test_classroom.id}", json=update_data, headers=auth_headers)
     assert response.status_code == 200
     data = response.json()
     assert data["capacity"] == 75
-    assert data["building_name"] == "Engineering Building"  # Should remain unchanged
-    assert data["room_no"] == "E101"  # Should remain unchanged
+    assert data["building_name"] == "Engineering Building" 
+    assert data["room_no"] == "E101" 
 
 def test_update_classroom_invalid_department(client: TestClient, auth_headers: dict, test_classroom: Classroom):
     """Test updating classroom with invalid department"""
@@ -103,7 +103,7 @@ def test_update_classroom_invalid_department(client: TestClient, auth_headers: d
         "building_name": "Updated Building",
         "room_no": "E103",
         "capacity": 40,
-        "department_id": 999  # Non-existent department
+        "department_id": 999 
     }
     response = client.put(f"/classroom/{test_classroom.id}", json=update_data, headers=auth_headers)
     assert response.status_code == 404
@@ -123,7 +123,7 @@ def test_update_classroom_not_found(client: TestClient, auth_headers: dict, test
 
 def test_delete_classroom(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test deleting classroom"""
-    # Create a classroom to delete
+    
     from app.models.classroom import Classroom
     classroom = Classroom(
         building_name="Temporary Building",
@@ -137,8 +137,10 @@ def test_delete_classroom(client: TestClient, auth_headers: dict, session: Sessi
     
     response = client.delete(f"/classroom/{classroom.id}", headers=auth_headers)
     assert response.status_code == 200
-    assert response.json()["ok"] is True
-    
+    data = response.json()
+    assert data["message"] == "Classroom deleted successfully"
+    assert data["data"]["id"] == classroom.id
+
     # Verify classroom is deleted
     response = client.get(f"/classroom/{classroom.id}", headers=auth_headers)
     assert response.status_code == 404
@@ -151,18 +153,18 @@ def test_delete_classroom_not_found(client: TestClient, auth_headers: dict):
 
 def test_classroom_unauthorized_access(client: TestClient, test_classroom: Classroom):
     """Test accessing classroom endpoints without authentication"""
-    # Test GET without auth
+    
     response = client.get("/classroom/")
     assert response.status_code == 401
     
-    # Test GET by ID without auth
+    
     response = client.get(f"/classroom/{test_classroom.id}")
     assert response.status_code == 401
     
-    # Test PUT without auth
+    
     response = client.put(f"/classroom/{test_classroom.id}", json={"capacity": 100})
     assert response.status_code == 401
     
-    # Test DELETE without auth
+    
     response = client.delete(f"/classroom/{test_classroom.id}")
     assert response.status_code == 401

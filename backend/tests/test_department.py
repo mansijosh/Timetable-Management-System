@@ -24,7 +24,7 @@ def test_create_department_duplicate_name(client: TestClient, auth_headers: dict
     }
     response = client.post("/department/", json=department_data, headers=auth_headers)
     assert response.status_code == 400
-    assert "Department already exists" in response.json()["detail"]
+    assert "already exists" in response.json()["detail"].lower()
 
 def test_create_department_unauthorized(client: TestClient):
     """Test creating department without authentication"""
@@ -95,7 +95,7 @@ def test_update_department_not_found(client: TestClient, auth_headers: dict):
 
 def test_delete_department(client: TestClient, auth_headers: dict, session: Session):
     """Test deleting department"""
-    # Create a department to delete
+   
     from app.models.department import Department
     department = Department(name="Physics", year=2024)
     session.add(department)
@@ -104,7 +104,9 @@ def test_delete_department(client: TestClient, auth_headers: dict, session: Sess
     
     response = client.delete(f"/department/{department.id}", headers=auth_headers)
     assert response.status_code == 200
-    assert response.json()["ok"] is True
+    data = response.json()
+    assert data["message"] == "Department deleted successfully"
+    assert data["data"]["id"] == department.id
     
     # Verify department is deleted
     response = client.get(f"/department/{department.id}", headers=auth_headers)

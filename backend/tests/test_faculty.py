@@ -14,18 +14,18 @@ def test_create_faculty(client: TestClient, auth_headers: dict, test_department:
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Dr. John Smith"
-    assert data["department_id"] == test_department.id
+    assert data["department"]["id"] == test_department.id
     assert "id" in data
 
 def test_create_faculty_invalid_department(client: TestClient, auth_headers: dict):
     """Test creating faculty with non-existent department"""
     faculty_data = {
         "name": "Dr. Jane Doe",
-        "department_id": 999  # Non-existent department
+        "department_id": 999  
     }
     response = client.post("/faculty/", json=faculty_data, headers=auth_headers)
     assert response.status_code == 404
-    assert "Faculty not found" in response.json()["detail"]
+    assert "not found" in response.json()["detail"].lower()
 
 def test_create_faculty_unauthorized(client: TestClient, test_department: Department):
     """Test creating faculty without authentication"""
@@ -38,7 +38,7 @@ def test_create_faculty_unauthorized(client: TestClient, test_department: Depart
 
 def test_get_faculties(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test getting all faculties"""
-    # Create a faculty first
+    
     from app.models.faculty import Faculty
     faculty = Faculty(name="Dr. Alice Johnson", department_id=test_department.id)
     session.add(faculty)
@@ -104,7 +104,7 @@ def test_update_faculty_partial(client: TestClient, auth_headers: dict, session:
     assert response.status_code == 200
     data = response.json()
     assert data["name"] == "Dr. Partially Updated"
-    assert data["department_id"] == test_department.id  # Should remain unchanged
+    assert data["department"]["id"] == test_department.id  # Should remain unchanged
 
 def test_update_faculty_invalid_department(client: TestClient, auth_headers: dict, session: Session, test_department: Department):
     """Test updating faculty with invalid department"""
@@ -142,9 +142,11 @@ def test_delete_faculty(client: TestClient, auth_headers: dict, session: Session
     
     response = client.delete(f"/faculty/{faculty.id}", headers=auth_headers)
     assert response.status_code == 200
-    assert response.json()["ok"] is True
+    data = response.json()
+    assert data["message"] == "Faculty deleted successfully"
+    assert data["data"]["id"] == faculty.id
+
     
-    # Verify faculty is deleted
     response = client.get(f"/faculty/{faculty.id}", headers=auth_headers)
     assert response.status_code == 404
 
@@ -162,18 +164,18 @@ def test_faculty_unauthorized_access(client: TestClient, session: Session, test_
     session.commit()
     session.refresh(faculty)
     
-    # Test GET without auth
+    
     response = client.get("/faculty/")
     assert response.status_code == 401
     
-    # Test GET by ID without auth
+    
     response = client.get(f"/faculty/{faculty.id}")
     assert response.status_code == 401
     
-    # Test PUT without auth
+    
     response = client.put(f"/faculty/{faculty.id}", json={"name": "Updated"})
     assert response.status_code == 401
     
-    # Test DELETE without auth
+    
     response = client.delete(f"/faculty/{faculty.id}")
     assert response.status_code == 401

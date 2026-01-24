@@ -107,7 +107,7 @@ def auth_headers_fixture(client: TestClient, test_user: User):
     # Login to get token
     response = client.post(
         "/auth/login",
-        data={"username": "testuser", "password": "testpassword123"}
+        data={"username": "test@example.com", "password": "testpassword123"}
     )
     
     assert response.status_code == 200

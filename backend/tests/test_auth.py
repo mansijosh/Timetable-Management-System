@@ -36,7 +36,6 @@ def test_register_duplicate_username(client: TestClient, test_user: User):
         "password": "password123"
     }
     response = client.post("/auth/register", json=user_data)
-    print("Here is user data!",response.json())
     assert response.status_code == 400
     assert "Username already registered" in response.json()["detail"]
 
@@ -44,7 +43,8 @@ def test_register_duplicate_email(client: TestClient, test_user: User):
     """Test registration with duplicate email"""
     user_data = {
         "username": "differentuser",
-        "email": "test@example.com",  # Same as test_user
+        "email": "test@example.com",
+        "phone_number": "8888888888",  
         "password": "password123"
     }
     response = client.post("/auth/register", json=user_data)
@@ -54,7 +54,7 @@ def test_register_duplicate_email(client: TestClient, test_user: User):
 def test_login_success(client: TestClient, test_user: User):
     """Test successful login"""
     login_data = {
-        "username": "testuser",
+        "username": "test@example.com",
         "password": "testpassword123"
     }
     response = client.post("/auth/login", data=login_data)
@@ -66,7 +66,7 @@ def test_login_success(client: TestClient, test_user: User):
 def test_login_invalid_credentials(client: TestClient, test_user: User):
     """Test login with invalid credentials"""
     login_data = {
-        "username": "testuser",
+        "username": "test@example.com",
         "password": "wrongpassword"
     }
     response = client.post("/auth/login", data=login_data)
@@ -86,7 +86,7 @@ def test_login_nonexistent_user(client: TestClient):
 def test_login_json_format(client: TestClient, test_user: User):
     """Test login with JSON format (should return 422 since endpoint expects form data)"""
     login_data = {
-        "username": "testuser",
+        "username": "test@example.com",
         "password": "testpassword123"
     }
     response = client.post("/auth/login", json=login_data)
@@ -99,6 +99,7 @@ def test_password_length_handling(client: TestClient):
     user_data = {
         "username": "longpassuser",
         "email": "longpass@example.com",
+        "phone_number": "7777777777",
         "password": long_password
     }
     response = client.post("/auth/register", json=user_data)
@@ -106,7 +107,7 @@ def test_password_length_handling(client: TestClient):
     
     # Test login with the same long password
     login_data = {
-        "username": "longpassuser",
+        "username": "longpass@example.com",
         "password": long_password
     }
     response = client.post("/auth/login", data=login_data)
