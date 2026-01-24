@@ -16,7 +16,13 @@ class FacultyUpdate(SQLModel):
 class FacultyRead(SQLModel):
     id: int
     name: str
-    department_id: int
     department: Optional[DepartmentRead] = None
 
-    model_config = {"from_attributes": True}
+    class Config:
+        from_attributes = True
+        
+class DeleteFacultyResponse(SQLModel):
+    message: str
+    data: FacultyRead | None = None
+
+

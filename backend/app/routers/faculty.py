@@ -4,7 +4,8 @@ from typing import List
 from app.database import get_db
 from app.models.faculty import Faculty
 from app.models.department import Department
-from app.schemas.faculty import FacultyCreate, FacultyRead, FacultyUpdate
+from app.schemas.faculty import FacultyCreate, FacultyRead, FacultyUpdate, DeleteFacultyResponse
+from app.schemas.utils import DeleteResponse
 from app.crud.deps import get_current_user
 
 router = APIRouter()
@@ -12,7 +13,7 @@ router = APIRouter()
 @router.post("/", response_model=FacultyRead)
 def create_faculty(faculty: FacultyCreate, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
     if not db.get(Department, faculty.department_id):
-        raise HTTPException(status_code=404, detail="Faculty not found")
+        raise HTTPException(status_code=404, detail="Department not found")
     db_faculty = Faculty.model_validate(faculty)
     db.add(db_faculty)
     db.commit()
@@ -35,14 +36,9 @@ def update_faculty(faculty_id: int, faculty: FacultyUpdate, db: Session = Depend
     db_faculty = db.get(Faculty, faculty_id)
     if not db_faculty:
         raise HTTPException(status_code=404, detail="Faculty not found")
-    
+    if not db.get(Department, faculty.department_id):
+        raise HTTPException(status_code=404, detail="Department not found")
     faculty_data = faculty.model_dump(exclude_unset=True)
-    
-    # Ensure department exists if changed
-    if "department_id" in faculty_data:
-        if not db.get(Department, faculty_data["department_id"]):
-            raise HTTPException(status_code=404, detail="Department not found")
-    
     for field, value in faculty_data.items():
         setattr(db_faculty, field, value)
     
@@ -51,11 +47,17 @@ def update_faculty(faculty_id: int, faculty: FacultyUpdate, db: Session = Depend
     db.refresh(db_faculty)
     return db_faculty
 
-@router.delete("/{faculty_id}")
-def delete_faculty(faculty_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+@router.delete("/{faculty_id}", response_model=DeleteFacultyResponse)
+def delete_faculty(faculty_id: int, db: Session = Depends(get_db), _current_user = Depends(get_current_user)): # noqa: B008
     db_faculty = db.get(Faculty, faculty_id)
     if not db_faculty:
         raise HTTPException(status_code=404, detail="Faculty not found")
+    
+    faculty_public = FacultyRead.model_validate(db_faculty)
     db.delete(db_faculty)
     db.commit()
-    return {"ok": True}
+    return DeleteFacultyResponse(message="Faculty deleted successfully",
+                          data= faculty_public
+                    )
+
+

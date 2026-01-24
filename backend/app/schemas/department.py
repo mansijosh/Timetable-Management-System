@@ -17,4 +17,9 @@ class DepartmentRead(SQLModel):
     name: str
     year: int
 
-    model_config = {"from_attributes": True}
+    class Config:
+        from_attributes = True
+        
+class DeleteDepartmentResponse(SQLModel):
+    message: str
+    data: DepartmentRead | None = None

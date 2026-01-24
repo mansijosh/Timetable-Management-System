@@ -9,4 +9,6 @@ class Faculty(SQLModel, table=True):
     
     # Relationships
     department: Optional["Department"] = Relationship()
-    subjects: List["Subject"] = Relationship(back_populates="professor")
+    subjects: List["Subject"] = Relationship()
+
+
