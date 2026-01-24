@@ -13,6 +13,7 @@ from app.models.department import Department
 from app.models.classroom import Classroom
 from app.crud.user import create_user
 from app.schemas.user import UserCreate
+from app.models.roles import Role
 
 # Create a test database for testing (using PostgreSQL)
 @pytest.fixture(name="session")
@@ -61,14 +62,23 @@ def setup_database(session: Session):
         session.execute(table.delete())
     session.commit()
 
+@pytest.fixture(name="test_role")
+def test_role_fixture(session: Session):
+    role = Role(role_name="user")
+    session.add(role)
+    session.commit()
+    session.refresh(role)
+    return role
+
 @pytest.fixture(name="test_user")
-def test_user_fixture(session: Session):
+def test_user_fixture(session: Session, test_role):
     user_data = UserCreate(
         username="testuser",
         email="test@example.com",
+        phone_number="999999999",
         password="testpassword123"
     )
-    user = create_user(session, user_data)
+    user = create_user(session, user_data, role_id=test_role.id)
     return user
 
 @pytest.fixture(name="test_department")
@@ -99,5 +109,8 @@ def auth_headers_fixture(client: TestClient, test_user: User):
         "/auth/login",
         data={"username": "testuser", "password": "testpassword123"}
     )
+    
+    assert response.status_code == 200
+    
     token = response.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}

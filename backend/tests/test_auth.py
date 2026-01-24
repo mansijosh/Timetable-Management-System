@@ -2,29 +2,41 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import Session
 from app.models.user import User
+from app.models.roles import Role
 
-def test_register_user(client: TestClient):
+def test_register_user(client: TestClient, session: Session):
     """Test user registration"""
+    role = Role(role_name="user")
+    session.add(role)
+    session.commit()
+    session.refresh(role)
+    
     user_data = {
         "username": "newuser",
         "email": "newuser@example.com",
-        "password": "newpassword123"
+        "phone_number": "1234567890",
+        "password": "newpassword123",
+        "role_id": role.id
     }
     response = client.post("/auth/register", json=user_data)
     assert response.status_code == 200
     data = response.json()
     assert data["username"] == "newuser"
     assert data["email"] == "newuser@example.com"
+    assert data["phone_number"] == "1234567890"
+    # assert data["role_id"] == role.id
     assert "id" in data
 
 def test_register_duplicate_username(client: TestClient, test_user: User):
     """Test registration with duplicate username"""
     user_data = {
-        "username": "testuser",  # Same as test_user
+        "username": "testuser",
         "email": "different@example.com",
+        "phone_number": "1234567890",
         "password": "password123"
     }
     response = client.post("/auth/register", json=user_data)
+    print("Here is user data!",response.json())
     assert response.status_code == 400
     assert "Username already registered" in response.json()["detail"]
 
