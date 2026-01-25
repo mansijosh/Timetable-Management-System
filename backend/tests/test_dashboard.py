@@ -1,4 +1,3 @@
-import pytest
 from fastapi.testclient import TestClient
 from sqlmodel import Session
 
@@ -8,11 +7,7 @@ from app.models.classroom import Classroom
 from app.models.department import Department
 
 
-def test_get_dashboard_stats(
-    client: TestClient,
-    auth_headers: dict,
-    session: Session
-):
+def test_get_dashboard_stats(client: TestClient, auth_headers: dict, session: Session):
     """Test dashboard statistics endpoint"""
 
     department = Department(name="Computer Science", year=2024)
@@ -28,29 +23,19 @@ def test_get_dashboard_stats(
     session.refresh(faculty2)
 
     subject1 = Subject(
-        name="Maths",
-        faculty_id=faculty1.id,
-        department_id=department.id
+        name="Maths", faculty_id=faculty1.id, department_id=department.id
     )
     subject2 = Subject(
-        name="Physics",
-        faculty_id=faculty2.id,
-        department_id=department.id
+        name="Physics", faculty_id=faculty2.id, department_id=department.id
     )
     session.add_all([subject1, subject2])
     session.commit()
 
     classroom1 = Classroom(
-        building_name="Block A",
-        room_no="101",
-        capacity=50,
-        department_id=department.id
+        building_name="Block A", room_no="101", capacity=50, department_id=department.id
     )
     classroom2 = Classroom(
-        building_name="Block B",
-        room_no="202",
-        capacity=60,
-        department_id=department.id
+        building_name="Block B", room_no="202", capacity=60, department_id=department.id
     )
     session.add_all([classroom1, classroom2])
     session.commit()

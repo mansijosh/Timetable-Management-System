@@ -1,8 +1,12 @@
-from typing import Optional
-from sqlmodel import SQLModel,Field,Relationship
+from typing import TYPE_CHECKING, Optional
+from sqlmodel import SQLModel, Field, Relationship
 
 
-class Role(SQLModel,table = True):
+if TYPE_CHECKING:
+    from .user import User
+
+
+class Role(SQLModel, table=True):
     __tablename__ = "roles"
 
     id: Optional[int] = Field(default=None, primary_key=True)
