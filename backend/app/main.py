@@ -1,16 +1,17 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.database import create_db_and_tables
-from app.routers import  department
-from app.routers import  classroom
-from app.routers import  faculty
-from app.routers import  role
-from app.routers import  subject
+from app.routers import department
+from app.routers import classroom
+from app.routers import faculty
+from app.routers import role
+from app.routers import subject
 from app.routers import auth
 from app.routers import user
 from app.routers import dashboard
-from app.middleware import add_timing_middleware  
+from app.middleware import add_timing_middleware
 from fastapi.middleware.cors import CORSMiddleware
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -18,6 +19,7 @@ async def lifespan(app: FastAPI):
     create_db_and_tables()
     yield
     # Shutdown (if needed)
+
 
 app = FastAPI(lifespan=lifespan)
 app.add_middleware(

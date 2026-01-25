@@ -5,6 +5,9 @@
 	import Sidebar from './component/Sidebar.svelte';
 
 	let { children } = $props();
+	import Sidebar from './component/Sidebar.svelte';
+
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -18,3 +21,11 @@
 		<!-- renders the page content -->
 	</div>
 </div>
+
+{#if data.isAuthenticated && !data.isLoginPage}
+	<Sidebar>
+		{@render children?.()}
+	</Sidebar>
+{:else}
+	{@render children?.()}
+{/if}
