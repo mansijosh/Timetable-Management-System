@@ -1,15 +1,15 @@
+from typing import TYPE_CHECKING
+
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional, List
-# from .department import Department
+
+if TYPE_CHECKING:
+    from app.models.department import Department
 
 
 class Classroom(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     building_name: str
     room_no: str
     capacity: int
-    # department_id: int = Field(foreign_key="department.id")
-
-    # department: Department|None = Relationship()
     department_id: int = Field(foreign_key="department.id")
     department: "Department" = Relationship(back_populates="classrooms")
