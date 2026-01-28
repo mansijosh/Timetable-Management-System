@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional, List
-# from .department import Department
+from typing import Optional
+from .department import Department
 
 
 class Classroom(SQLModel, table=True):
